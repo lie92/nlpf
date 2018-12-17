@@ -61,7 +61,8 @@ func (c App) Login(message string) revel.Result {
 		if isAdmin() {
 			const longForm = "Jan 2, 2006 at 3:04pm (MST)"
 			t, _ := time.Parse(longForm, "Dec 29, 2012 at 7:54pm (PST)")
-			return c.Redirect(routes.Admin.Administration(t, t))
+			t2, _ := time.Parse(longForm, "Dec 29, 2018 at 7:54pm (PST)")
+			return c.Redirect(routes.Admin.Administration(t, t2, "", 0, ""))
 		} else {
 			return c.Redirect(routes.Client.Index())
 		}
@@ -96,7 +97,8 @@ func (c App) Auth(email string, password string) revel.Result {
 			go cache.Set("admin", true, 30*time.Minute)
 			const longForm = "Jan 2, 2006 at 3:04pm (MST)"
 			t, _ := time.Parse(longForm, "Dec 29, 2012 at 7:54pm (PST)")
-			return c.Redirect(routes.Admin.Administration(t, t))
+			t2, _ := time.Parse(longForm, "Dec 29, 2018 at 7:54pm (PST)")
+			return c.Redirect(routes.Admin.Administration(t, t2, "", 0, ""))
 		} else {
 			go cache.Set("admin", false, 30*time.Minute)
 			fmt.Printf("not admin ")

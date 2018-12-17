@@ -123,9 +123,41 @@ func Register() {
 				Args: []*revel.MethodArg{ 
 					&revel.MethodArg{Name: "begin_date_input", Type: reflect.TypeOf((*time.Time)(nil)) },
 					&revel.MethodArg{Name: "end_date_input", Type: reflect.TypeOf((*time.Time)(nil)) },
+					&revel.MethodArg{Name: "motifrejet", Type: reflect.TypeOf((*string)(nil)) },
+					&revel.MethodArg{Name: "currentoffer", Type: reflect.TypeOf((*int)(nil)) },
+					&revel.MethodArg{Name: "isaccepted", Type: reflect.TypeOf((*string)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					45: []string{ 
+					61: []string{ 
+						"tags",
+						"rep",
+					},
+					66: []string{ 
+						"tags",
+						"rep",
+					},
+					68: []string{ 
+						"tags",
+					},
+				},
+			},
+			&revel.MethodType{
+				Name: "AcceptOffer",
+				Args: []*revel.MethodArg{ 
+					&revel.MethodArg{Name: "tag", Type: reflect.TypeOf((*int)(nil)) },
+				},
+				RenderArgNames: map[int][]string{ 
+					73: []string{ 
+					},
+				},
+			},
+			&revel.MethodType{
+				Name: "RefuseOffer",
+				Args: []*revel.MethodArg{ 
+					&revel.MethodArg{Name: "tag", Type: reflect.TypeOf((*int)(nil)) },
+				},
+				RenderArgNames: map[int][]string{ 
+					78: []string{ 
 					},
 				},
 			},
@@ -147,7 +179,7 @@ func Register() {
 					&revel.MethodArg{Name: "message", Type: reflect.TypeOf((*string)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					70: []string{ 
+					71: []string{ 
 						"message",
 					},
 				},
@@ -158,7 +190,7 @@ func Register() {
 					&revel.MethodArg{Name: "uid", Type: reflect.TypeOf((*string)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					75: []string{ 
+					76: []string{ 
 						"uid",
 					},
 				},
@@ -177,7 +209,7 @@ func Register() {
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					115: []string{ 
+					117: []string{ 
 					},
 				},
 			},
@@ -198,7 +230,7 @@ func Register() {
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					139: []string{ 
+					141: []string{ 
 					},
 				},
 			},
@@ -230,11 +262,34 @@ func Register() {
 				},
 			},
 			&revel.MethodType{
+				Name: "Modify",
+				Args: []*revel.MethodArg{ 
+					&revel.MethodArg{Name: "id", Type: reflect.TypeOf((*int)(nil)) },
+				},
+				RenderArgNames: map[int][]string{ 
+					78: []string{ 
+						"y",
+						"m",
+						"d",
+						"id",
+					},
+				},
+			},
+			&revel.MethodType{
+				Name: "ModifyDemande",
+				Args: []*revel.MethodArg{ 
+					&revel.MethodArg{Name: "address", Type: reflect.TypeOf((*string)(nil)) },
+					&revel.MethodArg{Name: "motif", Type: reflect.TypeOf((*string)(nil)) },
+					&revel.MethodArg{Name: "phone", Type: reflect.TypeOf((*string)(nil)) },
+					&revel.MethodArg{Name: "id", Type: reflect.TypeOf((*int)(nil)) },
+				},
+				RenderArgNames: map[int][]string{ 
+				},
+			},
+			&revel.MethodType{
 				Name: "ProcessDemande",
 				Args: []*revel.MethodArg{ 
 					&revel.MethodArg{Name: "address", Type: reflect.TypeOf((*string)(nil)) },
-					&revel.MethodArg{Name: "date", Type: reflect.TypeOf((*string)(nil)) },
-					&revel.MethodArg{Name: "hour", Type: reflect.TypeOf((*string)(nil)) },
 					&revel.MethodArg{Name: "motif", Type: reflect.TypeOf((*string)(nil)) },
 					&revel.MethodArg{Name: "phone", Type: reflect.TypeOf((*string)(nil)) },
 				},
@@ -254,7 +309,7 @@ func Register() {
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					106: []string{ 
+					128: []string{ 
 						"y",
 						"m",
 						"d",

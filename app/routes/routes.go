@@ -105,12 +105,36 @@ var Admin tAdmin
 func (_ tAdmin) Administration(
 		begin_date_input interface{},
 		end_date_input interface{},
+		motifrejet string,
+		currentoffer int,
+		isaccepted string,
 		) string {
 	args := make(map[string]string)
 	
 	revel.Unbind(args, "begin_date_input", begin_date_input)
 	revel.Unbind(args, "end_date_input", end_date_input)
+	revel.Unbind(args, "motifrejet", motifrejet)
+	revel.Unbind(args, "currentoffer", currentoffer)
+	revel.Unbind(args, "isaccepted", isaccepted)
 	return revel.MainRouter.Reverse("Admin.Administration", args).URL
+}
+
+func (_ tAdmin) AcceptOffer(
+		tag int,
+		) string {
+	args := make(map[string]string)
+	
+	revel.Unbind(args, "tag", tag)
+	return revel.MainRouter.Reverse("Admin.AcceptOffer", args).URL
+}
+
+func (_ tAdmin) RefuseOffer(
+		tag int,
+		) string {
+	args := make(map[string]string)
+	
+	revel.Unbind(args, "tag", tag)
+	return revel.MainRouter.Reverse("Admin.RefuseOffer", args).URL
 }
 
 

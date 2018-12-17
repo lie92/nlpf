@@ -5,7 +5,7 @@
 <head>
     <style type="text/css">
     </style>
-        <title>Administration Home</title>
+    <title>Administration Home</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -51,6 +51,7 @@ as updated fields:
 - end_date_input
 -->
 
+{{.rep}}
 
 <div class="container-fluid" id="body">
     <div class="row justify-content-center">
@@ -84,29 +85,29 @@ as updated fields:
                         </div>
                     </div> -->
 
-                        <div id="begin_date_selection_part">
-                            <div class="form-group">
-                                <div class="col-md-6">
-                                    <label class="col-form-label" for="begin_date_input">Du :</label>
-                                    <input class="form-control" type="date" id="begin_date_input" placeholder="Date" name="begin_date_input"/>
-                                </div>
+                    <div id="begin_date_selection_part">
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <label class="col-form-label" for="begin_date_input">Du :</label>
+                                <input class="form-control" type="date" id="begin_date_input" placeholder="Date" name="begin_date_input"/>
                             </div>
                         </div>
+                    </div>
 
-                        <div id="end_date_selection_part">
-                            <div class="form-group">
-                                <div class="col-md-6">
-                                    <label class="col-form-label" for="end_date_input">Au :</label>
-                                    <input class="form-control" type="date" id="end_date_input" placeholder="Date" name="end_date_input"/>
-                                </div>
+                    <div id="end_date_selection_part">
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                <label class="col-form-label" for="end_date_input">Au :</label>
+                                <input class="form-control" type="date" id="end_date_input" placeholder="Date" name="end_date_input"/>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="form-group no-margin">
-                            <button type="submit" class="btn btn-primary btn-block">
-                                Valider
-                            </button>
-                        </div>
+                    <div class="form-group no-margin">
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Valider
+                        </button>
+                    </div>
 
                     </form>
 
@@ -114,29 +115,60 @@ as updated fields:
             </div>
         </div>
     </div>
-    <!-- {if .demand_list}--> <!-- add accolade en plus devant et derrier pour que ca fasse la vraie cond. -->
+    {{if .tags}}<!-- add accolade en plus devant et derrier pour que ca fasse la vraie cond. -->
     <!-- de base il faut que demand_list ne contienne que les demandes avec accepted = NULL -->
     <div class="row justify-content-center" id="items_list">
         <div class="card-deck col-sm-10 row">
-            <!-- {for tag in .demand_list} -->
+            {{range .tags}}
             <div class="col-md-6 col-lg-4 card">
                 <div class="card-body">
-                    <p class="card-text">tag.place</p>
-                    <p class="card-text">tag.phone</p>
-                    <p class="card-text">tag.motive</p>
-                    <p class="card-text">tag.time</p>
-                    <p class="card-text">lien vers quelque chose pour accepter le tag</p>
-                    <p class="card-text">lien vers quelque chose pour rejeter le tag</p>
+                    <p class="card-text text-center">{{.Place}}</p>
+                    <p class="card-text text-center">{{.Phone}}</p>
+                    <p class="card-text text-center">{{.Motif}}</p>
+                    <p class="card-text text-center">{{.Time}}</p>
+                    {{if .Pending}}
+                    <p class="card-text text-center">Demande en attente de traitement</p>
+                    {{else}}
+                    {{if .Accepted.Bool}}
+                    <p class="card-text text-center">Demande déjà préalablement acceptée</p>
+                    {{else}}
+                    <p class="card-text text-center">Demande déjà préalablement refusée</p>
+                    {{end}}
+                    {{end}}
+                    <div class="form-group text-center">
+                        <button onclick="location.href='admin?currentoffer={{.Id}}&isaccepted=true'" type="button"  class="btn btn-primary btn-block">
+                            Accepter</button>
+                    </div>
+                    <button onclick="test" class="btn btn-primary btn-block">
+                        Accepter l'offre
+                    </button>
+                    <form action="{{url "Admin.Administration"}}" method="get">
+                    <div id="tag_rejet_motif">
+                        <div class="form-group">
+                            <div class="col-md-20">
+                                <input class="form-control" type="string" id="motifrejet" placeholder="Motif rejet" name="motifrejet"/>
+
+                            </div>
+                            <input class="form-control" type="string" id="currentoffer" name="currentoffer" value="{{.Id}}" style="display: none"/>
+
+                        </div>
+                    </div>
+                    <div class="form-group no-margin">
+                        <button type="submit text-center" class="btn btn-primary btn-block">
+                            Rejeter
+                        </button>
+                    </div>
+                    </form>
                 </div>
             </div>
             <br/>
-            <!--  {endfor}-->
+            {{end}}
         </div>
     </div>
 </div>
-<!-- {else}-->
+{{else}}
 <h3>Pas de demande d'intervention à afficher</h3>
-<!-- {endif}-->
+{{end}}
 </div>
 </body>
 <script src="../../static/js/admin_home.js" type="text/javascript"></script>
