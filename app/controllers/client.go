@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/revel/revel"
 	"nlpf/app"
 	"nlpf/app/models"
@@ -83,7 +84,13 @@ func (c Client) ModifyDemande(address, motif, phone string, id int) revel.Result
 	SET place=$1, phone=$2, motif=$3
 	WHERE id = $4`
 
-	_, err := app.Db.Exec(sqlStatement, address, motif, phone, id)
+	fmt.Println(id)
+	fmt.Println(id)
+	fmt.Println(id)
+	fmt.Println(id)
+	fmt.Println(id)
+
+	_, err := app.Db.Exec(sqlStatement, address, phone, motif, id)
 	if err != nil {
 		panic(err)
 	}
