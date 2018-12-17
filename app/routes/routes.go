@@ -204,18 +204,38 @@ func (_ tClient) Facture(
 	return revel.MainRouter.Reverse("Client.Facture", args).URL
 }
 
+func (_ tClient) Modify(
+		id int,
+		) string {
+	args := make(map[string]string)
+	
+	revel.Unbind(args, "id", id)
+	return revel.MainRouter.Reverse("Client.Modify", args).URL
+}
+
+func (_ tClient) ModifyDemande(
+		address string,
+		motif string,
+		phone string,
+		id int,
+		) string {
+	args := make(map[string]string)
+	
+	revel.Unbind(args, "address", address)
+	revel.Unbind(args, "motif", motif)
+	revel.Unbind(args, "phone", phone)
+	revel.Unbind(args, "id", id)
+	return revel.MainRouter.Reverse("Client.ModifyDemande", args).URL
+}
+
 func (_ tClient) ProcessDemande(
 		address string,
-		date string,
-		hour string,
 		motif string,
 		phone string,
 		) string {
 	args := make(map[string]string)
 	
 	revel.Unbind(args, "address", address)
-	revel.Unbind(args, "date", date)
-	revel.Unbind(args, "hour", hour)
 	revel.Unbind(args, "motif", motif)
 	revel.Unbind(args, "phone", phone)
 	return revel.MainRouter.Reverse("Client.ProcessDemande", args).URL

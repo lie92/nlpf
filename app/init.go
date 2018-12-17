@@ -1,12 +1,11 @@
 package app
 
 import (
-	"github.com/revel/revel"
 	"database/sql"
-	_ "github.com/lib/pq"
 	"fmt"
+	_ "github.com/lib/pq"
+	"github.com/revel/revel"
 	"nlpf/app/models"
-	"time"
 )
 
 var (
@@ -18,11 +17,11 @@ var (
 )
 var Db *sql.DB
 const (
-    dbhost = "go.cikn3q6gw0oj.eu-west-3.rds.amazonaws.com"
-    dbport = "5433"
+    dbhost = "localhost"
+    dbport = "5432"
     dbuser = "postgres"
     dbpass = "postgres"
-    dbname = "golang"
+    dbname = "go"
 )
 
 func InitDB() {
@@ -66,9 +65,9 @@ func createTables() {
 		pending     boolean NOT NULL,
 		accepted    boolean,
 		reason		varchar(80),
-		price       int NOT NULL,
-		phone		varchar(80),
-		motif		varchar(80)
+		price       int,
+		phone		varchar(80) NOT NULL,
+		motif		varchar(80) NOT NULL
 	);`
 
 	_, err := Db.Exec(sqlStatement)
@@ -76,26 +75,15 @@ func createTables() {
   		panic(err)
 	}
 
-	const longForm = "Jan 2, 2006 at 3:04pm (MST)"
-	t, _ := time.Parse(longForm, "Dec 29, 2018 at 7:54pm (PST)")
 
 	eric := models.User{Firstname: "eric", Lastname : "li", Email : "eric@gmail.com", Password : "1234", Phone:"0522398645"}
 	tony := models.User{Firstname: "tony", Lastname : "huang", Email : "tony@gmail.com", Password : "1234", Phone:"0522398645"}
 	momo := models.User{Firstname: "momo", Lastname : "bennis", Email : "momo@gmail.com", Password : "1234", Phone:"0522398645"}
 
-	tag1 := models.Tag{UserId: 1, Time : t, Place : "paris", Price : 14, Pending: true}
-	tag2 := models.Tag{UserId: 2, Time : t, Place : "creteil", Price : 15, Pending: true}
-	tag3 := models.Tag{UserId: 2, Time : t, Place : "italie", Price : 16, Pending: false, Accepted: sql.NullBool{true, true}}
-	tag4 := models.Tag{UserId: 2, Time : t, Place : "lol", Price : 54, Pending: false, Accepted: sql.NullBool{false, true}}
-
 
 	defer createAccount(eric)
 	defer createAccount(momo)
 	defer createAccount(tony)
-	defer createTag(tag1)
-	defer createTag(tag2)
-	defer createTag(tag3)
-	defer createTag(tag4)
 	fmt.Println("creation compte")
 }
 
@@ -106,19 +94,6 @@ VALUES ($1, $2, $3, $4, false, $5)
 RETURNING id`
   id := 0
   err := Db.QueryRow(sqlStatement, user.Firstname, user.Lastname, user.Email, user.Password, user.Phone).Scan(&id)
-  if err != nil {
-    panic(err)
-  }
-  fmt.Println("New record ID is:", id)
-}
-
-func createTag(tag models.Tag) {
-	sqlStatement := `
-INSERT INTO tags (userId, time, place, pending, price, accepted)
-VALUES ($1, $2, $3, $4, $5, $6)
-RETURNING id`
-  id := 0
-  err := Db.QueryRow(sqlStatement, tag.UserId, tag.Time, tag.Place, tag.Pending, tag.Price, tag.Accepted).Scan(&id)
   if err != nil {
     panic(err)
   }

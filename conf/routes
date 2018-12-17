@@ -21,7 +21,13 @@ GET     /client/facture                         Client.Facture
 
 GET     /client/demande                         Client.Demande
 
+GET     /client/modify                          Client.Modify
+
+
 POST    /client/demande                         Client.ProcessDemande
+
+POST    /client/modify                          Client.ModifyDemande
+
 
 GET    /client/delete                          Client.DeleteDemande
 

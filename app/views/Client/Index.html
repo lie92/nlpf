@@ -35,7 +35,7 @@
                     Addresse
                 </div>
                 <div class="col-lg-3 h4" style="text-align: center">
-                    Supprimmer
+                    Actions
                 </div>
                 <div class="col-lg-3 h4" style="text-align: center">
                     Status
@@ -56,8 +56,14 @@
                         {{.Place}}
                     </div>
                     <div class="col-lg-3" style="text-align: center;font-weight: 500">
+                        <a href="{{url "Client.Index"}}" class="text-center">
+                            Loupe
+                        </a></div>
                         <a href="{{url "Client.DeleteDemande" .Id}}" class="text-center">
                             Supprimer
+                        </a></div>
+                        <a href="{{url "Client.Modify" 2}}" class="text-center">
+                            Modifier
                         </a></div>
                     <div class="col-lg-3" style="text-align: center;font-weight: 500">
                         {{if .Pending}}
