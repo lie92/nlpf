@@ -45,9 +45,11 @@ func InitDB() {
 }
 
 func createTables() {
+
 	sqlStatement := `
 	DROP TABLE IF EXISTS users CASCADE;
 	DROP TABLE IF EXISTS tags CASCADE;
+	
 	CREATE TABLE users (
 		id       	SERIAL PRIMARY KEY,
 		firstname   varchar(40) NOT NULL,
@@ -76,24 +78,23 @@ func createTables() {
 	}
 
 
-	eric := models.User{Firstname: "eric", Lastname : "li", Email : "eric@gmail.com", Password : "1234", Phone:"0522398645"}
-	tony := models.User{Firstname: "tony", Lastname : "huang", Email : "tony@gmail.com", Password : "1234", Phone:"0522398645"}
-	momo := models.User{Firstname: "momo", Lastname : "bennis", Email : "momo@gmail.com", Password : "1234", Phone:"0522398645"}
+	eric := models.User{Firstname: "eric", Lastname : "li", Email : "eric@gmail.com", Password : "1234", Phone:"0522398645", Admin : true}
+	tony := models.User{Firstname: "tony", Lastname : "huang", Email : "tony@gmail.com", Password : "1234", Phone:"0522398645", Admin: false}
 
 
 	defer createAccount(eric)
-	defer createAccount(momo)
 	defer createAccount(tony)
+
 	fmt.Println("creation compte")
 }
 
 func createAccount(user models.User) {
 	sqlStatement := `
 INSERT INTO users (firstname, lastname, email, password, admin, phone)
-VALUES ($1, $2, $3, $4, false, $5)
+VALUES ($1, $2, $3, $4, $6, $5)
 RETURNING id`
   id := 0
-  err := Db.QueryRow(sqlStatement, user.Firstname, user.Lastname, user.Email, user.Password, user.Phone).Scan(&id)
+  err := Db.QueryRow(sqlStatement, user.Firstname, user.Lastname, user.Email, user.Password, user.Phone, user.Admin).Scan(&id)
   if err != nil {
     panic(err)
   }
