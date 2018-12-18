@@ -57,7 +57,8 @@ func createTables() {
 		email	    varchar(40) NOT NULL,
 		password	varchar(40) NOT NULL,
 		admin 		boolean,
-		phone		varchar(40) NOT NULL
+		phone		varchar(40) NOT NULL,
+		blacklist	boolean
 	);
 	CREATE TABLE tags (
 		id       	SERIAL PRIMARY KEY,
@@ -80,8 +81,8 @@ func createTables() {
 	}
 
 
-	eric := models.User{Firstname: "eric", Lastname : "li", Email : "eric@gmail.com", Password : "1234", Phone:"0522398645", Admin : true}
-	tony := models.User{Firstname: "tony", Lastname : "huang", Email : "tony@gmail.com", Password : "1234", Phone:"0522398645", Admin: false}
+	eric := models.User{Firstname: "eric", Lastname : "li", Email : "eric@gmail.com", Password : "1234", Phone:"0522398645", Admin : true, Blacklist: false}
+	tony := models.User{Firstname: "tony", Lastname : "huang", Email : "tony@gmail.com", Password : "1234", Phone:"0522398645", Admin: false, Blacklist: false}
 
 
 	defer createAccount(eric)
@@ -92,11 +93,11 @@ func createTables() {
 
 func createAccount(user models.User) {
 	sqlStatement := `
-INSERT INTO users (firstname, lastname, email, password, admin, phone)
-VALUES ($1, $2, $3, $4, $6, $5)
+INSERT INTO users (firstname, lastname, email, password, admin, phone, blacklist)
+VALUES ($1, $2, $3, $4, $6, $5, $7)
 RETURNING id`
   id := 0
-  err := Db.QueryRow(sqlStatement, user.Firstname, user.Lastname, user.Email, user.Password, user.Phone, user.Admin).Scan(&id)
+  err := Db.QueryRow(sqlStatement, user.Firstname, user.Lastname, user.Email, user.Password, user.Phone, user.Admin, user.Blacklist).Scan(&id)
   if err != nil {
     panic(err)
   }
