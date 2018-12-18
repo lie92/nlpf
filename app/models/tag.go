@@ -16,4 +16,5 @@ type Tag struct {
 	Price		sql.NullInt64
 	Phone		string
 	Motif		string
+	Orientation string
 }

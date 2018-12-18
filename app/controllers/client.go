@@ -38,7 +38,7 @@ func (c Client) Index() revel.Result {
 			var tag models.Tag
 
 			err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
-				&tag.Motif)
+				&tag.Motif, &tag.Orientation)
 			checkErr(err)
 			total += tag.Price.Int64
 			tags = append(tags, tag)
@@ -62,7 +62,7 @@ func (c Client) Facture() revel.Result {
 		var tag models.Tag
 
 		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
-			&tag.Motif)
+			&tag.Motif, &tag.Orientation)
 		checkErr(err)
 		total += tag.Price.Int64
 		tags = append(tags, tag)
@@ -83,7 +83,7 @@ func (c Client) Modify(id int) revel.Result {
 	for rows.Next() {
 
 		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
-			&tag.Motif)
+			&tag.Motif, &tag.Orientation)
 		checkErr(err)
 
 	}
@@ -91,12 +91,12 @@ func (c Client) Modify(id int) revel.Result {
 	return c.Render(tag)
 }
 
-func (c Client) ModifyDemande(address, motif, phone string, id int) revel.Result {
+func (c Client) ModifyDemande(address, motif, phone, orientation string, id int) revel.Result {
 	sqlStatement := `UPDATE public.tags
-	SET place=$1, phone=$2, motif=$3
-	WHERE id = $4`
+	SET place=$1, phone=$2, motif=$3, orientation=$4
+	WHERE id = $5`
 
-	_, err := app.Db.Exec(sqlStatement, address, phone, motif, id)
+	_, err := app.Db.Exec(sqlStatement, address, phone, motif, orientation, id)
 	if err != nil {
 		panic(err)
 	}
@@ -105,7 +105,7 @@ func (c Client) ModifyDemande(address, motif, phone string, id int) revel.Result
 
 }
 
-func (c Client) ProcessDemande(address, motif, phone string) revel.Result {
+func (c Client) ProcessDemande(address, motif, phone, orientation string) revel.Result {
 
 	//TODO ==> Ici pour l'upload de file.
 	//TODO ==> On doit upload le file, save le file (surement en local) puis save le tag dans la bdd.
@@ -116,12 +116,12 @@ func (c Client) ProcessDemande(address, motif, phone string) revel.Result {
 	//TODO ==> Ps: exemple sur: https://github.com/revel/examples/tree/master/upload
 	//TODO ==> mais il marche pas donc si t'arrive à le faire marcher on a gagné.
 
-	sqlStatement := `INSERT INTO tags (userId, place, pending, accepted, motif, phone, time)
-		VALUES ($1, $2, $3, $4, $5, $6, $7)
+	sqlStatement := `INSERT INTO tags (userId, place, pending, accepted, motif, phone, time, orientation)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 		RETURNING id`
 
 	var id int
-	err := app.Db.QueryRow(sqlStatement, 2, address, true, sql.NullBool{false, false}, motif, phone, "01/01/01").Scan(&id)
+	err := app.Db.QueryRow(sqlStatement, 2, address, true, sql.NullBool{false, false}, motif, phone, "01/01/01", orientation).Scan(&id)
 	if err != nil {
 		panic(err)
 	}
@@ -182,7 +182,7 @@ func (c Client) Tag(id int) revel.Result {
 	for rows.Next() {
 
 		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
-			&tag.Motif)
+			&tag.Motif, &tag.Orientation)
 		checkErr(err)
 
 	}

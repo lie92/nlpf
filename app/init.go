@@ -69,7 +69,9 @@ func createTables() {
 		reason		varchar(80),
 		price       int,
 		phone		varchar(80) NOT NULL,
-		motif		varchar(80) NOT NULL
+		motif		varchar(80) NOT NULL,
+  		orientation	varchar(80) NOT NULL
+
 	);`
 
 	_, err := Db.Exec(sqlStatement)
