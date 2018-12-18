@@ -247,6 +247,7 @@ func (_ tClient) ModifyDemande(
 		address string,
 		motif string,
 		phone string,
+		orientation string,
 		id int,
 		) string {
 	args := make(map[string]string)
@@ -254,6 +255,7 @@ func (_ tClient) ModifyDemande(
 	revel.Unbind(args, "address", address)
 	revel.Unbind(args, "motif", motif)
 	revel.Unbind(args, "phone", phone)
+	revel.Unbind(args, "orientation", orientation)
 	revel.Unbind(args, "id", id)
 	return revel.MainRouter.Reverse("Client.ModifyDemande", args).URL
 }
@@ -262,12 +264,14 @@ func (_ tClient) ProcessDemande(
 		address string,
 		motif string,
 		phone string,
+		orientation string,
 		) string {
 	args := make(map[string]string)
 	
 	revel.Unbind(args, "address", address)
 	revel.Unbind(args, "motif", motif)
 	revel.Unbind(args, "phone", phone)
+	revel.Unbind(args, "orientation", orientation)
 	return revel.MainRouter.Reverse("Client.ProcessDemande", args).URL
 }
 

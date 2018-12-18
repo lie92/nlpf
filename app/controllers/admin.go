@@ -32,7 +32,7 @@ func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Ti
 		var tag models.Tag
 
 		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
-			&tag.Motif)
+			&tag.Motif, &tag.Orientation)
 		checkErr(err)
 		tags = append(tags, tag)
 		/*if (begin_date_input != nil) {

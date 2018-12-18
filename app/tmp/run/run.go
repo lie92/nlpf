@@ -281,6 +281,7 @@ func Register() {
 					&revel.MethodArg{Name: "address", Type: reflect.TypeOf((*string)(nil)) },
 					&revel.MethodArg{Name: "motif", Type: reflect.TypeOf((*string)(nil)) },
 					&revel.MethodArg{Name: "phone", Type: reflect.TypeOf((*string)(nil)) },
+					&revel.MethodArg{Name: "orientation", Type: reflect.TypeOf((*string)(nil)) },
 					&revel.MethodArg{Name: "id", Type: reflect.TypeOf((*int)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
@@ -292,6 +293,7 @@ func Register() {
 					&revel.MethodArg{Name: "address", Type: reflect.TypeOf((*string)(nil)) },
 					&revel.MethodArg{Name: "motif", Type: reflect.TypeOf((*string)(nil)) },
 					&revel.MethodArg{Name: "phone", Type: reflect.TypeOf((*string)(nil)) },
+					&revel.MethodArg{Name: "orientation", Type: reflect.TypeOf((*string)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
 				},
