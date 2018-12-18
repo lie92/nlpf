@@ -71,24 +71,46 @@ func (c Client) Facture() revel.Result {
 
 func (c Client) Modify(id int) revel.Result {
 
-	today := time.Now()
 
-	y := today.Year()
-	var m int = int (today.Month())
-	d := today.Day()
-	return c.Render(y, m, d, id)
+	//TODO => check si le mec à le droit (si le tag existe et qu'il lui appartient, qu'il est pas dj accepté/refusé, etc...)
+	sqlStatement := `SELECT * FROM tags WHERE userId=$1 AND id=$2`
+
+	rows, err := app.Db.Query(sqlStatement, 2, id)
+	checkErr(err)
+
+	var tag models.Tag
+	for rows.Next() {
+
+		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
+			&tag.Motif)
+		checkErr(err)
+		fmt.Println(tag)
+		fmt.Println(tag.Id)
+		fmt.Println(tag.UserId)
+		fmt.Println(tag.Time)
+		fmt.Println(tag.Place)
+		fmt.Println(tag.Pending)
+		fmt.Println(tag.Accepted)
+		fmt.Println(tag.Reason)
+		fmt.Println(tag.Price)
+		fmt.Println(tag.Phone)
+		fmt.Println(tag.Motif)
+		fmt.Println(tag.Pending)
+		fmt.Println(".....................")
+
+	}
+
+
+
+
+
+	return c.Render(tag)
 }
 
 func (c Client) ModifyDemande(address, motif, phone string, id int) revel.Result {
 	sqlStatement := `UPDATE public.tags
 	SET place=$1, phone=$2, motif=$3
 	WHERE id = $4`
-
-	fmt.Println(id)
-	fmt.Println(id)
-	fmt.Println(id)
-	fmt.Println(id)
-	fmt.Println(id)
 
 	_, err := app.Db.Exec(sqlStatement, address, phone, motif, id)
 	if err != nil {
