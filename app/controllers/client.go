@@ -2,10 +2,14 @@ package controllers
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/revel/revel"
+	"io"
 	"nlpf/app"
 	"nlpf/app/models"
 	"nlpf/app/routes"
+	"os"
+	"strconv"
 	"time"
 )
 
@@ -21,27 +25,27 @@ type Client struct {
 
 func (c Client) Index() revel.Result {
 
-
 	if isAuth() && !isAdmin() {
 
-	sqlStatement := `SELECT * FROM tags WHERE userId=$1`
+		sqlStatement := `SELECT * FROM tags WHERE userId=$1`
 
-	rows, err := app.Db.Query(sqlStatement, 2)
-	checkErr(err)
-	var total int64 = 0
-
-	var tags []models.Tag
-	for rows.Next() {
-		var tag models.Tag
-
-		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
-			&tag.Motif)
+		rows, err := app.Db.Query(sqlStatement, 2)
 		checkErr(err)
-		total += tag.Price.Int64
-		tags = append(tags, tag)
-	}
+		var total int64 = 0
 
-	return c.Render(tags, total)} else {
+		var tags []models.Tag
+		for rows.Next() {
+			var tag models.Tag
+
+			err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
+				&tag.Motif)
+			checkErr(err)
+			total += tag.Price.Int64
+			tags = append(tags, tag)
+		}
+
+		return c.Render(tags, total)
+	} else {
 		return c.Redirect(routes.App.HTTP403())
 	}
 }
@@ -53,7 +57,6 @@ func (c Client) Facture() revel.Result {
 	checkErr(err)
 	var total int64 = 0
 
-	
 	var tags []models.Tag
 	for rows.Next() {
 		var tag models.Tag
@@ -69,7 +72,6 @@ func (c Client) Facture() revel.Result {
 }
 
 func (c Client) Modify(id int) revel.Result {
-
 
 	//TODO => check si le mec à le droit (si le tag existe et qu'il lui appartient, qu'il est pas dj accepté/refusé, etc...)
 	sqlStatement := `SELECT * FROM tags WHERE userId=$1 AND id=$2`
@@ -114,7 +116,6 @@ func (c Client) ProcessDemande(address, motif, phone string) revel.Result {
 	//TODO ==> Ps: exemple sur: https://github.com/revel/examples/tree/master/upload
 	//TODO ==> mais il marche pas donc si t'arrive à le faire marcher on a gagné.
 
-
 	sqlStatement := `INSERT INTO tags (userId, place, pending, accepted, motif, phone, time)
 		VALUES ($1, $2, $3, $4, $5, $6, $7)
 		RETURNING id`
@@ -125,8 +126,29 @@ func (c Client) ProcessDemande(address, motif, phone string) revel.Result {
 		panic(err)
 	}
 
-	return c.Redirect(routes.Client.Index())
+	file := c.Params.Files["pic"][0]
+
+	f, err := os.OpenFile("./public/img/"+strconv.Itoa(id)+".png", os.O_WRONLY|os.O_CREATE, 0666)
+	if err != nil {
+		fmt.Println(err)
+		return c.Redirect("/")
 	}
+
+	defer f.Close()
+
+	f2, err := file.Open()
+	if err != nil {
+		fmt.Println(err)
+		return c.Redirect("/")
+	}
+	defer f2.Close()
+
+	io.Copy(f, f2)
+
+	defer f2.Close()
+
+	return c.Redirect(routes.Client.Index())
+}
 
 func (c Client) DeleteDemande(id int) revel.Result {
 	//TODO => check si il a les droits
@@ -144,11 +166,10 @@ func (c Client) Demande() revel.Result {
 	today := time.Now()
 
 	y := today.Year()
-	var m int = int (today.Month())
+	var m int = int(today.Month())
 	d := today.Day()
 	return c.Render(y, m, d)
 }
-
 
 func (c Client) Tag(id int) revel.Result {
 	//TODO => check si le mec à le droit (si le tag existe et qu'il lui appartient)

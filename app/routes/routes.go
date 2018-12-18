@@ -281,4 +281,13 @@ func (_ tClient) Demande(
 	return revel.MainRouter.Reverse("Client.Demande", args).URL
 }
 
+func (_ tClient) Tag(
+		id int,
+		) string {
+	args := make(map[string]string)
+	
+	revel.Unbind(args, "id", id)
+	return revel.MainRouter.Reverse("Client.Tag", args).URL
+}
+
 
