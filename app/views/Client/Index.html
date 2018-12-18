@@ -21,72 +21,72 @@
 <br>
 
 {{if .tags}}
-    <body class="my-login-page">
+<body class="my-login-page">
 
-    <div class="card fat" style="margin: 20px">
-        <div class="card-body">
+<div class="card fat" style="margin: 20px">
+    <div class="card-body">
 
-            <div class="row" style="text-align: center">
+        <div class="row" style="text-align: center">
 
-                <div class="col-lg-3 h4" style="text-align: center;">
-                    Date
-                </div>
-                <div class="col-lg-3 h4" style="text-align: center;">
-                    Addresse
-                </div>
-                <div class="col-lg-3 h4" style="text-align: center">
-                    Actions
-                </div>
-                <div class="col-lg-3 h4" style="text-align: center">
-                    Status
-                </div>
+            <div class="col-lg-4 h4" style="text-align: center;">
+                Addresse
+            </div>
+            <div class="col-lg-4 h4" style="text-align: center">
+                Status
+            </div>
+            <div class="col-lg-4 h4" style="text-align: center">
+                Actions
+            </div>
+
+        </div>
+
+        {{range .tags}}
+
+        <br>
+        <div class="row">
+
+            <div class="col-lg-4" style="text-align: center;font-weight: 500">
+                {{.Place}} (id : {{.Id}})
+            </div>
+
+            <div class="col-lg-4" style="text-align: center;font-weight: 500">
+                {{if .Pending}}
+                    En attente
+                {{else if .Accepted.Bool}}
+                    Accepté
+                {{else}}
+                    Refusé
+                {{end}}
 
             </div>
 
-            {{range .tags}}
-                <br>
-                <div class="row">
-                    <div class="col-lg-3" style="text-align: center;font-weight: 500">
-                        {{.Time.Day}} {{.Time.Month}} {{.Time.Year}}
-                        {{if gt .Time.Hour 9 }}
-                            {{.Time.Hour}}:{{else}}
-                            0{{.Time.Hour}}:{{end}}{{if gt .Time.Hour 9 }}{{.Time.Minute}}{{else}}0{{.Time.Minute}}{{end}}
-                    </div>
-                    <div class="col-lg-3" style="text-align: center;font-weight: 500">
-                        {{.Place}}
-                    </div>
-                    <div class="col-lg-3" style="text-align: center;font-weight: 500">
-                        <a href="{{url "Client.Index"}}" class="text-center">
-                            Loupe
-                        </a></div>
-                        <a href="{{url "Client.DeleteDemande" .Id}}" class="text-center">
-                            Supprimer
-                        </a></div>
-                        <a href="{{url "Client.Modify" 2}}" class="text-center">
-                            Modifier
-                        </a></div>
-                    <div class="col-lg-3" style="text-align: center;font-weight: 500">
-                        {{if .Pending}}
-                            En attente
-                        {{else}}
-                            {{if .Accepted.Bool}}
-                                Accepté
-                            {{else}}
-                                Refusé
-                            {{end}}
-                        {{end}}
-                    </div>
-                </div>
-            {{end}}
+            <div class="col-lg-4" style="text-align: center;font-weight: 500">
+                <a href="{{url "Client.Tag" .Id}}" class="text-center">
+                    Détails
+                </a>
+                {{if .Accepted}}
+                    <a>/</a>
+                    <a href="{{url "Client.Modify" .Id}}" class="text-center">
+                        Modifier
+                    </a>
+                    <a>/</a>
+                    <a href="{{url "Client.DeleteDemande" .Id}}" class="text-center">
+                        Supprimer
+                    </a>
+                {{end}}
+            </div>
         </div>
+        {{end}}
     </div>
-    </body>
+</div>
+</body>
 
 {{else}}
-    <br><br>
-    <div class="form-group text-center" style="font-weight: 500">
-        Aucune action prévue
-    </div>
-{{end}}
 
+<br><br>
+<div class="form-group text-center" style="font-weight: 500">
+    Aucune action prévue
+
+    {{end}}
+</div>
 {{template "footer.html" .}}

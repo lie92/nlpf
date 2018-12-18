@@ -2,10 +2,14 @@ package controllers
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/revel/revel"
+	"io"
 	"nlpf/app"
 	"nlpf/app/models"
 	"nlpf/app/routes"
+	"os"
+	"strconv"
 	"time"
 )
 
@@ -21,27 +25,27 @@ type Client struct {
 
 func (c Client) Index() revel.Result {
 
-
 	if isAuth() && !isAdmin() {
 
-	sqlStatement := `SELECT * FROM tags WHERE userId=$1`
+		sqlStatement := `SELECT * FROM tags WHERE userId=$1`
 
-	rows, err := app.Db.Query(sqlStatement, 2)
-	checkErr(err)
-	var total int64 = 0
-
-	var tags []models.Tag
-	for rows.Next() {
-		var tag models.Tag
-
-		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
-			&tag.Motif)
+		rows, err := app.Db.Query(sqlStatement, 2)
 		checkErr(err)
-		total += tag.Price.Int64
-		tags = append(tags, tag)
-	}
+		var total int64 = 0
 
-	return c.Render(tags, total)} else {
+		var tags []models.Tag
+		for rows.Next() {
+			var tag models.Tag
+
+			err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
+				&tag.Motif, &tag.Orientation)
+			checkErr(err)
+			total += tag.Price.Int64
+			tags = append(tags, tag)
+		}
+
+		return c.Render(tags, total)
+	} else {
 		return c.Redirect(routes.App.HTTP403())
 	}
 }
@@ -53,13 +57,12 @@ func (c Client) Facture() revel.Result {
 	checkErr(err)
 	var total int64 = 0
 
-	
 	var tags []models.Tag
 	for rows.Next() {
 		var tag models.Tag
 
 		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
-			&tag.Motif)
+			&tag.Motif, &tag.Orientation)
 		checkErr(err)
 		total += tag.Price.Int64
 		tags = append(tags, tag)
@@ -70,20 +73,30 @@ func (c Client) Facture() revel.Result {
 
 func (c Client) Modify(id int) revel.Result {
 
-	today := time.Now()
+	//TODO => check si le mec à le droit (si le tag existe et qu'il lui appartient, qu'il est pas dj accepté/refusé, etc...)
+	sqlStatement := `SELECT * FROM tags WHERE userId=$1 AND id=$2`
 
-	y := today.Year()
-	var m int = int (today.Month())
-	d := today.Day()
-	return c.Render(y, m, d, id)
+	rows, err := app.Db.Query(sqlStatement, 2, id)
+	checkErr(err)
+
+	var tag models.Tag
+	for rows.Next() {
+
+		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
+			&tag.Motif, &tag.Orientation)
+		checkErr(err)
+
+	}
+
+	return c.Render(tag)
 }
 
-func (c Client) ModifyDemande(address, motif, phone string, id int) revel.Result {
+func (c Client) ModifyDemande(address, motif, phone, orientation string, id int) revel.Result {
 	sqlStatement := `UPDATE public.tags
-	SET place=$1, phone=$2, motif=$3
-	WHERE id = $4`
+	SET place=$1, phone=$2, motif=$3, orientation=$4
+	WHERE id = $5`
 
-	_, err := app.Db.Exec(sqlStatement, address, motif, phone, id)
+	_, err := app.Db.Exec(sqlStatement, address, phone, motif, orientation, id)
 	if err != nil {
 		panic(err)
 	}
@@ -92,23 +105,53 @@ func (c Client) ModifyDemande(address, motif, phone string, id int) revel.Result
 
 }
 
-func (c Client) ProcessDemande(address, motif, phone string) revel.Result {
+func (c Client) ProcessDemande(address, motif, phone, orientation string) revel.Result {
 
-	sqlStatement := `INSERT INTO tags (userId, place, pending, accepted, motif, phone, time)
-		VALUES ($1, $2, $3, $4, $5, $6, $7)
+	//TODO ==> Ici pour l'upload de file.
+	//TODO ==> On doit upload le file, save le file (surement en local) puis save le tag dans la bdd.
+	//TODO ==> Faudra donc modifier la bdd avec un champ photo
+	//TODO ==> Faudra aussi mettre la photo dans le "tagprofile" et mettre l'upload dans modifier (ModifyDemande)
+	//TODO ==> pour l'instant occupe toi que de ça, le front passe après (même si il est pas très beau)
+	//TODO ==> Gl :)
+	//TODO ==> Ps: exemple sur: https://github.com/revel/examples/tree/master/upload
+	//TODO ==> mais il marche pas donc si t'arrive à le faire marcher on a gagné.
+
+	sqlStatement := `INSERT INTO tags (userId, place, pending, accepted, motif, phone, time, orientation)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 		RETURNING id`
 
 	var id int
-	err := app.Db.QueryRow(sqlStatement, 2, address, true, sql.NullBool{false, false}, motif, phone, "01/01/01").Scan(&id)
+	err := app.Db.QueryRow(sqlStatement, 2, address, true, sql.NullBool{false, false}, motif, phone, "01/01/01", orientation).Scan(&id)
 	if err != nil {
 		panic(err)
 	}
 
-	return c.Redirect(routes.Client.Index())
+	file := c.Params.Files["pic"][0]
+
+	f, err := os.OpenFile("./public/img/"+strconv.Itoa(id)+".png", os.O_WRONLY|os.O_CREATE, 0666)
+	if err != nil {
+		fmt.Println(err)
+		return c.Redirect("/")
 	}
 
-func (c Client) DeleteDemande(id int) revel.Result {
+	defer f.Close()
 
+	f2, err := file.Open()
+	if err != nil {
+		fmt.Println(err)
+		return c.Redirect("/")
+	}
+	defer f2.Close()
+
+	io.Copy(f, f2)
+
+	defer f2.Close()
+
+	return c.Redirect(routes.Client.Index())
+}
+
+func (c Client) DeleteDemande(id int) revel.Result {
+	//TODO => check si il a les droits
 	sqlStatement := `DELETE FROM tags WHERE id = $1`
 
 	_, err := app.Db.Exec(sqlStatement, id)
@@ -123,7 +166,26 @@ func (c Client) Demande() revel.Result {
 	today := time.Now()
 
 	y := today.Year()
-	var m int = int (today.Month())
+	var m int = int(today.Month())
 	d := today.Day()
 	return c.Render(y, m, d)
+}
+
+func (c Client) Tag(id int) revel.Result {
+	//TODO => check si le mec à le droit (si le tag existe et qu'il lui appartient)
+	sqlStatement := `SELECT * FROM tags WHERE userId=$1 AND id=$2`
+
+	rows, err := app.Db.Query(sqlStatement, 2, id)
+	checkErr(err)
+
+	var tag models.Tag
+	for rows.Next() {
+
+		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
+			&tag.Motif, &tag.Orientation)
+		checkErr(err)
+
+	}
+
+	return c.Render(tag)
 }

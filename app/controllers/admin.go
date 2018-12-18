@@ -146,3 +146,17 @@ func refuseOffer(id int, reason string) {
 	}
 	fmt.Println("refus demande tag")
 }
+
+func blacklist(id int) {
+	sqlStatement := `
+	UPDATE users 
+	SET blacklist=true
+	WHERE id = $1; `
+
+	_, err := app.Db.Exec(sqlStatement, id)
+
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("blacklist")
+}
