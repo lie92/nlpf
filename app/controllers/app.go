@@ -62,7 +62,7 @@ func (c App) Login(message string) revel.Result {
 			const longForm = "Jan 2, 2006 at 3:04pm (MST)"
 			t, _ := time.Parse(longForm, "Dec 29, 2012 at 7:54pm (PST)")
 			t2, _ := time.Parse(longForm, "Dec 29, 2018 at 7:54pm (PST)")
-			return c.Redirect(routes.Admin.Administration(t, t2, "", 0, ""))
+			return c.Redirect(routes.Admin.Administration(t, t2, "", 0, 0, "", "", float32(0.0)))
 		} else {
 			return c.Redirect(routes.Client.Index())
 		}
@@ -98,7 +98,7 @@ func (c App) Auth(email string, password string) revel.Result {
 			const longForm = "Jan 2, 2006 at 3:04pm (MST)"
 			t, _ := time.Parse(longForm, "Dec 29, 2012 at 7:54pm (PST)")
 			t2, _ := time.Parse(longForm, "Dec 29, 2018 at 7:54pm (PST)")
-			return c.Redirect(routes.Admin.Administration(t, t2, "", 0, ""))
+			return c.Redirect(routes.Admin.Administration(t, t2, "", 0, 0,"", "", float32(0.0)))
 		} else {
 			go cache.Set("admin", false, 30*time.Minute)
 			fmt.Printf("not admin ")

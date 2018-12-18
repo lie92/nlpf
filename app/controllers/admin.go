@@ -16,7 +16,7 @@ type Admin struct {
 }
 
 
-func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Time, motifrejet string, currentoffer int, isaccepted string) revel.Result {
+func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Time, motifrejet string, currentofferrefused int, currentofferaccepted int, date string, hour string, price_rdv float32) revel.Result {
 
 	if (!isAuth() || !isAdmin()) {
 		return c.Redirect(routes.App.HTTP403())
@@ -55,26 +55,27 @@ func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Ti
 	fmt.Println(end_date_input);
 	if (motifrejet != "") {
 		fmt.Println("curr offer is")
-		fmt.Println(currentoffer);
-		refuseOffer(currentoffer, motifrejet)
+		fmt.Println(currentofferrefused);
+		refuseOffer(currentofferrefused, motifrejet)
 		var rep = "Une demande a bien été rejetée";
 		return c.Render(tags, rep);
 	}
-	if (isaccepted != "") {
-		acceptOffer(currentoffer)
+	if (&currentofferaccepted != nil && currentofferaccepted != 0) {
+		//autre alternative : on ne veut plus se servir du currentoffer mais juste du champ date et du champ prix après
+		acceptOffer(currentofferaccepted, date, hour, price_rdv)
 		var rep = "Une demande a bien été acceptée"
 		return c.Render(tags, rep);
 	}
 	return c.Render(tags)
 }
 
-func (c Admin) AcceptOffer(tag int) revel.Result {
-	acceptOffer(tag)
+func (c Admin) AcceptOffer(tag int) revel.Result { //aux
+	//acceptOffer(tag, "", "")
 	return c.Render()
 }
 
-func (c Admin) RefuseOffer(tag int) revel.Result {
-	//refuseOffer(tag, "FUCK YOU")
+func (c Admin) RefuseOffer(tag int) revel.Result { //aux
+	//refuseOffer(tag, "")
 	return c.Render()
 }
 
@@ -115,13 +116,16 @@ func (c Admin) RefuseOffer(tag int) revel.Result {
 	}
 }*/
 
-func acceptOffer(id int) {
+func acceptOffer(id int, date string, hour string, price_rdv float32) {
+	booking := date + " " + hour
+	fmt.Println(booking)
+	fmt.Println(price_rdv);
 	sqlStatement := `
 	UPDATE tags 
-	SET accepted = true, pending = false
+	SET accepted = true, pending = false, time= $2, price=$3
 	WHERE id = $1; `
 
-	_, err := app.Db.Exec(sqlStatement, id)
+	_, err := app.Db.Exec(sqlStatement, id, booking, price_rdv)
 
 	if err != nil {
 		panic(err)

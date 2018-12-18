@@ -124,19 +124,22 @@ func Register() {
 					&revel.MethodArg{Name: "begin_date_input", Type: reflect.TypeOf((*time.Time)(nil)) },
 					&revel.MethodArg{Name: "end_date_input", Type: reflect.TypeOf((*time.Time)(nil)) },
 					&revel.MethodArg{Name: "motifrejet", Type: reflect.TypeOf((*string)(nil)) },
-					&revel.MethodArg{Name: "currentoffer", Type: reflect.TypeOf((*int)(nil)) },
-					&revel.MethodArg{Name: "isaccepted", Type: reflect.TypeOf((*string)(nil)) },
+					&revel.MethodArg{Name: "currentofferrefused", Type: reflect.TypeOf((*int)(nil)) },
+					&revel.MethodArg{Name: "currentofferaccepted", Type: reflect.TypeOf((*int)(nil)) },
+					&revel.MethodArg{Name: "date", Type: reflect.TypeOf((*string)(nil)) },
+					&revel.MethodArg{Name: "hour", Type: reflect.TypeOf((*string)(nil)) },
+					&revel.MethodArg{Name: "price_rdv", Type: reflect.TypeOf((*float32)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
 					61: []string{ 
 						"tags",
 						"rep",
 					},
-					66: []string{ 
+					67: []string{ 
 						"tags",
 						"rep",
 					},
-					68: []string{ 
+					69: []string{ 
 						"tags",
 					},
 				},
@@ -147,7 +150,7 @@ func Register() {
 					&revel.MethodArg{Name: "tag", Type: reflect.TypeOf((*int)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					73: []string{ 
+					74: []string{ 
 					},
 				},
 			},
@@ -157,7 +160,7 @@ func Register() {
 					&revel.MethodArg{Name: "tag", Type: reflect.TypeOf((*int)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					78: []string{ 
+					79: []string{ 
 					},
 				},
 			},
