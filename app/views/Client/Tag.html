@@ -1,0 +1,75 @@
+{{set . "title" "Facture"}}
+{{template "header.html" .}}
+<link rel="stylesheet" type="text/css" href="/public/css/my-login.css">
+{{template "header2.html" .}}
+
+
+<br>
+
+{{if .tag}}
+    <br>
+    <br>
+    <br>
+    <div class="col-lg-12 h3" style="text-align: center">
+        Tag {{.tag.Place}}
+    </div>
+    <br>
+    <br>
+
+    <div class="row">
+    <div class="col-lg-2">
+    </div>
+
+    <div class="col-lg-3" style="text-align: center">
+        photo
+    </div>
+    <div class="col-lg-1">
+    </div>
+    <div class="col-lg-4" style="text-align: left">
+        <div class="row">
+           Adresse: {{.tag.Place}}
+        </div>
+        <div class="row">
+            Téléphone du responsable: {{.tag.Phone}}
+        </div>
+        <div class="row">
+            Motif: {{.tag.Motif}}
+        </div>
+        <div class="row">
+            Status: {{if .tag.Pending}}
+                En attente
+            {{else}}
+                {{if .tag.Accepted.Bool}}
+                    Accepté
+        </div>
+        <div class="row">
+            Prix: {{.tag.Price.Int64}}
+        </div>
+        <div class="row">
+            Date: {{.tag.Time.Day}} {{.tag.Time.Month}} {{.tag.Time.Year}}
+            {{if gt .tag.Time.Hour 9 }}
+                {{.tag.Time.Hour}}:{{else}}
+                0{{.tag.Time.Hour}}:{{end}}{{if gt .tag.Time.Hour 9 }}{{.tag.Time.Minute}}{{else}}0{{.tag.Time.Minute}}{{end}}
+
+                {{else}}
+                    Refusé
+                </div>
+                 <div class="row">
+                     Réson: {{.tag.Reason.String}}
+                 </div>
+                {{end}}
+            {{end}}
+        </div>
+
+    </div>
+    <div class="col-lg-2">
+    </div>
+    </div>
+{{else}}
+    <br><br>
+    <div class="form-group text-center" style="font-weight: 500">
+        Impossible
+    </div>
+{{end}}
+
+{{template "footer.html" .}}

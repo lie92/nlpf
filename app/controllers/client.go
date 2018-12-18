@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/revel/revel"
 	"nlpf/app"
 	"nlpf/app/models"
@@ -84,25 +83,8 @@ func (c Client) Modify(id int) revel.Result {
 		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
 			&tag.Motif)
 		checkErr(err)
-		fmt.Println(tag)
-		fmt.Println(tag.Id)
-		fmt.Println(tag.UserId)
-		fmt.Println(tag.Time)
-		fmt.Println(tag.Place)
-		fmt.Println(tag.Pending)
-		fmt.Println(tag.Accepted)
-		fmt.Println(tag.Reason)
-		fmt.Println(tag.Price)
-		fmt.Println(tag.Phone)
-		fmt.Println(tag.Motif)
-		fmt.Println(tag.Pending)
-		fmt.Println(".....................")
 
 	}
-
-
-
-
 
 	return c.Render(tag)
 }
@@ -123,6 +105,16 @@ func (c Client) ModifyDemande(address, motif, phone string, id int) revel.Result
 
 func (c Client) ProcessDemande(address, motif, phone string) revel.Result {
 
+	//TODO ==> Ici pour l'upload de file.
+	//TODO ==> On doit upload le file, save le file (surement en local) puis save le tag dans la bdd.
+	//TODO ==> Faudra donc modifier la bdd avec un champ photo
+	//TODO ==> Faudra aussi mettre la photo dans le "tagprofile" et mettre l'upload dans modifier (ModifyDemande)
+	//TODO ==> pour l'instant occupe toi que de ça, le front passe après (même si il est pas très beau)
+	//TODO ==> Gl :)
+	//TODO ==> Ps: exemple sur: https://github.com/revel/examples/tree/master/upload
+	//TODO ==> mais il marche pas donc si t'arrive à le faire marcher on a gagné.
+
+
 	sqlStatement := `INSERT INTO tags (userId, place, pending, accepted, motif, phone, time)
 		VALUES ($1, $2, $3, $4, $5, $6, $7)
 		RETURNING id`
@@ -137,7 +129,7 @@ func (c Client) ProcessDemande(address, motif, phone string) revel.Result {
 	}
 
 func (c Client) DeleteDemande(id int) revel.Result {
-
+	//TODO => check si il a les droits
 	sqlStatement := `DELETE FROM tags WHERE id = $1`
 
 	_, err := app.Db.Exec(sqlStatement, id)
@@ -155,4 +147,24 @@ func (c Client) Demande() revel.Result {
 	var m int = int (today.Month())
 	d := today.Day()
 	return c.Render(y, m, d)
+}
+
+
+func (c Client) Tag(id int) revel.Result {
+	//TODO => check si le mec à le droit (si le tag existe et qu'il lui appartient)
+	sqlStatement := `SELECT * FROM tags WHERE userId=$1 AND id=$2`
+
+	rows, err := app.Db.Query(sqlStatement, 2, id)
+	checkErr(err)
+
+	var tag models.Tag
+	for rows.Next() {
+
+		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
+			&tag.Motif)
+		checkErr(err)
+
+	}
+
+	return c.Render(tag)
 }

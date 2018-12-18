@@ -23,6 +23,9 @@ GET     /client/demande                         Client.Demande
 
 GET     /client/modify                          Client.Modify
 
+GET     /client/tag                          Client.Tag
+
+
 
 POST    /client/demande                         Client.ProcessDemande
 
