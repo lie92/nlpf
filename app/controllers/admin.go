@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"github.com/kataras/go-mailer"
 	"github.com/revel/revel"
 	"nlpf/app"
 	"nlpf/app/models"
@@ -195,6 +196,26 @@ func acceptOffer(id int, date string, hour string, price_rdv float32) {
 	if err != nil {
 		panic(err)
 	}
+
+	config := mailer.Config{
+		Host:     "smtp.gmail.com",
+		Username: "nlpfcorp@gmail.com",
+		Password: "hahahaha11.",
+		FromAddr: "nlpfcorp@gmail.com",
+		Port:     587,
+		UseCommand: false,
+	}
+
+	sender := mailer.New(config)
+	subject := "Hello subject"
+	content := `<h1>Hello</h1> <br/><br/> <span style="color:black"> Votre demande à été accepté </span>`
+	to := []string{"mohamed.bennis@epita.fr"}
+	err = sender.Send(subject, content, to...)
+
+	if err != nil {
+		println("error while sending the e-mail: " + err.Error())
+	}
+
 	fmt.Println("acceptation demande tag")
 }
 
@@ -212,6 +233,26 @@ func refuseOffer(id int, reason string) {
 	if err != nil {
 		panic(err)
 	}
+
+	config := mailer.Config{
+		Host:     "smtp.gmail.com",
+		Username: "nlpfcorp@gmail.com",
+		Password: "hahahaha11.",
+		FromAddr: "nlpfcorp@gmail.com",
+		Port:     587,
+		UseCommand: false,
+	}
+
+	sender := mailer.New(config)
+	subject := "Hello subject"
+	content := `<h1>Hello</h1> <br/><br/> <span style="color:black"> Votre demande à été refusé </span>`
+	to := []string{"mohamed.bennis@epita.fr"}
+	err = sender.Send(subject, content, to...)
+
+	if err != nil {
+		println("error while sending the e-mail: " + err.Error())
+	}
+
 	fmt.Println("refus demande tag")
 }
 
