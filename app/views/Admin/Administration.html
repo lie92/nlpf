@@ -53,7 +53,7 @@ as updated fields:
 -->
 
 {{.rep}}
-
+<body>
 <div class="container-fluid" id="body">
     <div class="row justify-content-center">
         <!-- Justify center/offset -->
@@ -140,18 +140,18 @@ as updated fields:
                     {{range .tags}}
 
                         <br>
-                            {{if .Accepted.Bool}}
-                        <div class="row">
+                        {{if .Accepted.Bool}}
+                            <div class="row">
 
-                            <div class="col-lg-6" style="text-align: center;font-weight: 500">
-                                {{.Place}} (id : {{.Id}})
+                                <div class="col-lg-6" style="text-align: center;font-weight: 500">
+                                    {{.Place}} (id : {{.Id}})
+                                </div>
+
+                                <div class="col-lg-6" style="text-align: center;font-weight: 500">
+                                    {{.Time}}
+                                </div>
+
                             </div>
-
-                            <div class="col-lg-6" style="text-align: center;font-weight: 500">
-                                {{.Time}}
-                            </div>
-
-                        </div>
                         {{end}}
                     {{end}}
                 </div>
@@ -162,6 +162,6 @@ as updated fields:
         </div>
     </div>
 </div>
-
+</body>
 <script src="../../static/js/admin_home.js" type="text/javascript"></script>
 </html>
