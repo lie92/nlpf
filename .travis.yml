@@ -24,9 +24,9 @@ script:
   # Build & run the sample apps
   - cd ../
   - pwd
-  - mv nplf ../../
+  - mv nlpf ../../
   - cd ../../../
   - ls src/
   - ls -l
-  - revel run nplf
-  - revel test nplf
+  - revel run nlpf
+  - revel test nlpf
