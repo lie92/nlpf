@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/revel/revel"
+	"github.com/revel/revel/cache"
 	"io"
 	"nlpf/app"
 	"nlpf/app/models"
@@ -25,11 +26,19 @@ type Client struct {
 
 func (c Client) Index() revel.Result {
 
+
 	if isAuth() && !isAdmin() {
+
+		var stored int
+
+		_ = cache.Get("id", &stored)
 
 		sqlStatement := `SELECT * FROM tags WHERE userId=$1`
 
-		rows, err := app.Db.Query(sqlStatement, 2)
+
+		fmt.Printf("the is is is is : " + strconv.Itoa(stored) + "\n")
+
+		rows, err := app.Db.Query(sqlStatement, stored)
 		checkErr(err)
 		var total int64 = 0
 
@@ -53,7 +62,11 @@ func (c Client) Index() revel.Result {
 func (c Client) Facture() revel.Result {
 	sqlStatement := `SELECT * FROM tags WHERE userId=$1`
 
-	rows, err := app.Db.Query(sqlStatement, 2)
+	var stored int
+
+	_ = cache.Get("id", &stored)
+
+	rows, err := app.Db.Query(sqlStatement, stored)
 	checkErr(err)
 	var total int64 = 0
 
@@ -74,9 +87,14 @@ func (c Client) Facture() revel.Result {
 func (c Client) Modify(id int) revel.Result {
 
 	//TODO => check si le mec à le droit (si le tag existe et qu'il lui appartient, qu'il est pas dj accepté/refusé, etc...)
+
+	var stored int
+
+	_ = cache.Get("id", &stored)
+
 	sqlStatement := `SELECT * FROM tags WHERE userId=$1 AND id=$2`
 
-	rows, err := app.Db.Query(sqlStatement, 2, id)
+	rows, err := app.Db.Query(sqlStatement, stored, id)
 	checkErr(err)
 
 	var tag models.Tag
@@ -116,12 +134,16 @@ func (c Client) ProcessDemande(address, motif, phone, orientation string) revel.
 	//TODO ==> Ps: exemple sur: https://github.com/revel/examples/tree/master/upload
 	//TODO ==> mais il marche pas donc si t'arrive à le faire marcher on a gagné.
 
+	var stored int
+
+	_ = cache.Get("id", &stored)
+
 	sqlStatement := `INSERT INTO tags (userId, place, pending, accepted, motif, phone, time, orientation)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 		RETURNING id`
 
 	var id int
-	err := app.Db.QueryRow(sqlStatement, 2, address, true, sql.NullBool{false, false}, motif, phone, "01/01/01", orientation).Scan(&id)
+	err := app.Db.QueryRow(sqlStatement, stored, address, true, sql.NullBool{false, false}, motif, phone, "01/01/01", orientation).Scan(&id)
 	if err != nil {
 		panic(err)
 	}
@@ -173,9 +195,14 @@ func (c Client) Demande() revel.Result {
 
 func (c Client) Tag(id int) revel.Result {
 	//TODO => check si le mec à le droit (si le tag existe et qu'il lui appartient)
+
+	var stored int
+
+	_ = cache.Get("id", &stored)
+
 	sqlStatement := `SELECT * FROM tags WHERE userId=$1 AND id=$2`
 
-	rows, err := app.Db.Query(sqlStatement, 2, id)
+	rows, err := app.Db.Query(sqlStatement, stored, id)
 	checkErr(err)
 
 	var tag models.Tag

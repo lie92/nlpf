@@ -264,7 +264,7 @@ func Register() {
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					47: []string{ 
+					56: []string{ 
 						"tags",
 						"total",
 					},
@@ -275,7 +275,7 @@ func Register() {
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					71: []string{ 
+					84: []string{ 
 						"tags",
 						"total",
 					},
@@ -287,7 +287,7 @@ func Register() {
 					&revel.MethodArg{Name: "id", Type: reflect.TypeOf((*int)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					91: []string{ 
+					109: []string{ 
 						"tag",
 					},
 				},
@@ -328,7 +328,7 @@ func Register() {
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					171: []string{ 
+					193: []string{ 
 						"y",
 						"m",
 						"d",
@@ -341,7 +341,7 @@ func Register() {
 					&revel.MethodArg{Name: "id", Type: reflect.TypeOf((*int)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					190: []string{ 
+					217: []string{ 
 						"tag",
 					},
 				},
