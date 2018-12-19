@@ -18,7 +18,7 @@ var (
 var Db *sql.DB
 const (
     dbhost = "localhost"
-    dbport = "5433"
+    dbport = "5432"
     dbuser = "postgres"
     dbpass = "postgres"
     dbname = "go"
@@ -63,7 +63,7 @@ func createTables() {
 	CREATE TABLE tags (
 		id       	SERIAL PRIMARY KEY,
 		userId		integer NOT NULL,
-		time  	 	Date,
+		time  	 	timestamp,
 		place    	varchar(80) NOT NULL,
 		pending     boolean NOT NULL,
 		accepted    boolean,
