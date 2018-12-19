@@ -60,13 +60,13 @@ func (c Client) Index() revel.Result {
 }
 
 func (c Client) Facture() revel.Result {
-	sqlStatement := `SELECT * FROM tags WHERE userId=$1`
+	sqlStatement := `SELECT * FROM tags WHERE userId=$1 and accepted=$2`
 
 	var stored int
 
 	_ = cache.Get("id", &stored)
 
-	rows, err := app.Db.Query(sqlStatement, stored)
+	rows, err := app.Db.Query(sqlStatement, stored, true)
 	checkErr(err)
 	var total int64 = 0
 
