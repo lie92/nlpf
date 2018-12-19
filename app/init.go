@@ -17,6 +17,7 @@ var (
 )
 var Db *sql.DB
 // this is using rds change dbhost to localhost and dbname to go if error
+// http://ec2-52-47-109-11.eu-west-3.compute.amazonaws.com:8080/  aws adresse
 const (
     dbhost = "go.cikn3q6gw0oj.eu-west-3.rds.amazonaws.com"
     dbport = "5433"

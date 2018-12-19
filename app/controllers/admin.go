@@ -14,7 +14,7 @@ type Admin struct {
 }
 
 /*
-Main function for administration : manages tag displays and acceptation/refusal
+Main administration : manages tag displays and acceptation/refusal
  */
 
 func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Time, motifrejet string, currentofferrefused int, currentofferaccepted int, date string, hour string, price_rdv float32, uid_refusing int, uid_accepting int) revel.Result {
@@ -39,7 +39,6 @@ func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Ti
 		t, _ := time.Parse(longForm, "Dec 29, 2012 at 7:54pm (PST)")
 		t2, _ := time.Parse(longForm, "Dec 29, 2099 at 7:54pm (PST)")
 		if begin_date_input != t && end_date_input != t2 {
-			///if (tag.Time > begin_date_input && tag.Time < end_date_input) {
 			if (end_date_input.Sub(time.Now()) > 0 && time.Now().Sub(begin_date_input) > 0) {
 				tags = append(tags, tag)
 			}
@@ -47,43 +46,31 @@ func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Ti
 		if (begin_date_input == t || end_date_input == t2 || begin_date_input == time.Time{} || end_date_input == time.Time{}) {
 			tags = append(tags, tag)
 		}
-		/*if (begin_date_input != nil) {
-			if (end_date_input != nil) {
-				//if (begin_date_input > tag.Time && end_date_input < tag.Time) { // marche pas faut conv en string et recoder la conversion
-				//}
-			}
-		} else if (end_date_input != nil) {
-
-		} else {
-		tags = append(tags, tag)
-		}*/
 	}
 
 	checkErr(err)
-
-	/*fmt.Println(tags);
-	fmt.Println("entering admin")
-	fmt.Println(begin_date_input);
-	fmt.Println(end_date_input);*/
 	if (motifrejet != "") {
-		/*fmt.Println("curr offer is")
-		fmt.Println(currentofferrefused);*/
 		refuseOffer(currentofferrefused, motifrejet, uid_refusing)
-		var rep = "Une demande a bien été rejetée";
-		return c.Render(tags, rep);
+		const longForm = "Jan 2, 2006 at 3:04pm (MST)"
+		t, _ := time.Parse(longForm, "Dec 29, 2012 at 7:54pm (PST)")
+		t2, _ := time.Parse(longForm, "Dec 29, 2099 at 7:54pm (PST)")
+		return c.Redirect(routes.Admin.Administration(t, t2, "", 0, 0, "", "", float32(0.0), 0, 0))
 	}
 	if &currentofferaccepted != nil && currentofferaccepted != 0 {
-		//autre alternative : on ne veut plus se servir du currentoffer mais juste du champ date et du champ prix après
 		acceptOffer(currentofferaccepted, date, hour, price_rdv, uid_accepting)
-		var rep = "Une demande a bien été acceptée"
-		return c.Render(tags, rep);
+		const longForm = "Jan 2, 2006 at 3:04pm (MST)"
+		t, _ := time.Parse(longForm, "Dec 29, 2012 at 7:54pm (PST)")
+		t2, _ := time.Parse(longForm, "Dec 29, 2099 at 7:54pm (PST)")
+		return c.Redirect(routes.Admin.Administration(t, t2, "", 0, 0, "", "", float32(0.0), 0, 0))
 	}
 	return c.Render(tags)
 }
 
 
+/*
+Database func for blacklist
+*/
 func (c Admin) BanAction(id_account int) revel.Result {
-	/*fmt.Println("banning")*/
 	sqlStatement := `UPDATE public.users
 	SET blacklist=true
 	WHERE id = $1`
@@ -96,9 +83,10 @@ func (c Admin) BanAction(id_account int) revel.Result {
 	return c.Redirect(routes.Admin.Ban())
 }
 
-
+/*
+Database func for unblacklist
+*/
 func (c Admin) UnbanAction(id_account int) revel.Result {
-	/*fmt.Println("unbanning")*/
 	sqlStatement := `UPDATE public.users
 	SET blacklist=false
 	WHERE id = $1`
@@ -111,10 +99,10 @@ func (c Admin) UnbanAction(id_account int) revel.Result {
 	return c.Redirect(routes.Admin.Ban())
 }
 
-
-
+/*
+Database func for unblacklist
+*/
 func (c Admin) Ban() revel.Result { //aux
-	//acceptOffer(tag, "", "")
 	if !isAuth() || !isAdmin() {
 		return c.Redirect(routes.App.HTTP403())
 	}
@@ -135,24 +123,29 @@ func (c Admin) Ban() revel.Result { //aux
 	return c.Render(users)
 }
 
+/*
+Blank acceptance page
+ */
+
 func (c Admin) AcceptOffer(tag int) revel.Result { //aux
 	//acceptOffer(tag, "", "")
 
 	return c.Render()
 }
 
+/*
+Blank refusal page
+ */
 func (c Admin) RefuseOffer(tag int) revel.Result { //aux
 	//refuseOffer(tag, "")
 	return c.Render()
 }
 
+/*
+Process for accepting offer
+ */
 func acceptOffer(id int, date string, hour string, price_rdv float32, uid_accepting int) {
 	booking := date + " " + hour;//+ strings.Split(hour, " ")[0] + ":00"
-	/*fmt.Println(booking)
-	fmt.Println("is printed")
-	fmt.Println(price_rdv);
-	fmt.Println("is printed")
-	fmt.Println(uid_accepting);*/
 	sqlStatement := `
 	UPDATE tags 
 	SET accepted = true, pending = false, time=$2, price=$3
@@ -177,8 +170,6 @@ func acceptOffer(id int, date string, hour string, price_rdv float32, uid_accept
 		checkErr(err)
 
 	}
-	/*fmt.Print("important !!!!!!!!!!")
-	fmt.Println(user.Email)*/
 
 	config := mailer.Config{
 		Host:     "smtp.gmail.com",
@@ -199,13 +190,13 @@ func acceptOffer(id int, date string, hour string, price_rdv float32, uid_accept
 		println("error while sending the e-mail: " + err.Error())
 	}
 
-	/*fmt.Println("acceptation demande tag")*/
 }
 
+/*
+Process for refusing offer
+ */
 func refuseOffer(id int, reason string, uid_refusing int) {
-	/*fmt.Println(id)
-	fmt.Println(" and reason is ")
-	fmt.Println(reason)*/
+
 	sqlStatement := `
 	UPDATE tags 
 	SET pending = false, accepted = false, reason = $2
@@ -230,9 +221,6 @@ func refuseOffer(id int, reason string, uid_refusing int) {
 		checkErr(err)
 
 	}
-	/*fmt.Print("important !!!!!!!!!!")
-	fmt.Println(user.Email)*/
-
 
 	config := mailer.Config{
 		Host:     "smtp.gmail.com",
@@ -254,6 +242,10 @@ func refuseOffer(id int, reason string, uid_refusing int) {
 	}
 }
 
+
+/*
+Process for blacklist in database
+ */
 func blacklist(id int) {
 	sqlStatement := `
 	UPDATE users 
@@ -267,6 +259,9 @@ func blacklist(id int) {
 	}
 }
 
+/*
+Rendering of demande.html
+ */
 func (c Admin) Demandes () revel.Result {
 
 	sqlStatement := `SELECT * FROM tags WHERE pending=$1`
@@ -289,6 +284,10 @@ func (c Admin) Demandes () revel.Result {
 	return c.Render(tags, total)
 }
 
+
+/*
+Rendering of details.html
+ */
 func (c Admin) Details (id int) revel.Result {
 
 	sqlStatement := `SELECT * FROM tags WHERE id=$1`
