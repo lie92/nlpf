@@ -16,12 +16,13 @@ var (
 	BuildTime string
 )
 var Db *sql.DB
+// this is using rds change dbhost to localhost and dbname to go if error
 const (
-    dbhost = "localhost"
-    dbport = "5432"
+    dbhost = "go.cikn3q6gw0oj.eu-west-3.rds.amazonaws.com"
+    dbport = "5433"
     dbuser = "postgres"
     dbpass = "postgres"
-    dbname = "go"
+    dbname = "golang"
 )
 
 func InitDB() {
@@ -83,10 +84,12 @@ func createTables() {
 
 	eric := models.User{Firstname: "eric", Lastname : "li", Email : "eric@gmail.com", Password : "1234", Phone:"0522398645", Admin : true, Blacklist: false}
 	tony := models.User{Firstname: "tony", Lastname : "huang", Email : "tony@gmail.com", Password : "1234", Phone:"0522398645", Admin: false, Blacklist: false}
+	momo := models.User{Firstname: "momo", Lastname : "bennis", Email : "mohamed.bennis@epita.fr", Password : "1234", Phone:"0522398645", Admin: false, Blacklist: false}
 
 
 	defer createAccount(eric)
 	defer createAccount(tony)
+	defer createAccount(momo)
 
 	fmt.Println("creation compte")
 }

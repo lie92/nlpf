@@ -3,10 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="1caa53ea-3aa8-44ca-8d3c-aeee352591ef" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/admin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Ban.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Ban.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/Admin/Demandes.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Demandes.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/img/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Admin/Administration.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Admin/Administration.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Client/Facture.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Client/Facture.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/Client/Tag.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/Client/Tag.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/1.png" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,8 +19,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/app.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1377">
-              <caret line="154" selection-start-line="154" selection-end-line="154" />
+            <state relative-caret-position="352">
+              <caret line="161" column="23" selection-start-line="161" selection-start-column="23" selection-end-line="161" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -28,73 +28,37 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/Admin/Administration.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="436">
-              <caret line="152" selection-start-line="152" selection-end-line="152" />
+            <state relative-caret-position="474">
+              <caret line="153" column="83" selection-start-line="153" selection-start-column="83" selection-end-line="153" selection-end-column="83" />
               <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/admin.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="190" column="20" selection-start-line="190" selection-start-column="20" selection-end-line="190" selection-end-column="20" />
+            <state relative-caret-position="-2983">
+              <caret line="70" column="66" selection-start-line="70" selection-start-column="66" selection-end-line="70" selection-end-column="66" />
               <folding>
-                <element signature="e#21#144#0" expanded="true" />
+                <element signature="e#21#154#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/Admin/Demandes.html">
+        <entry file="file://$PROJECT_DIR$/app/views/Client/Demande.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="24" column="21" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/Admin/Details.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-421" />
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/Admin/Ban.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="292">
-              <caret line="61" column="29" selection-start-line="61" selection-start-column="29" selection-end-line="61" selection-end-column="29" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/conf/routes">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-100">
-              <caret line="40" column="21" selection-start-line="40" selection-start-column="9" selection-end-line="40" selection-end-column="21" />
+            <state relative-caret-position="235">
+              <caret line="19" column="68" selection-start-line="19" selection-start-column="68" selection-end-line="19" selection-end-column="68" />
             </state>
           </provider>
         </entry>
@@ -102,8 +66,48 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/client.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1590">
-              <caret line="118" column="18" selection-start-line="118" selection-start-column="18" selection-end-line="118" selection-end-column="18" />
+            <state relative-caret-position="798">
+              <caret line="227" selection-start-line="227" selection-end-line="227" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/Admin/Details.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="914">
+              <caret line="68" column="83" selection-start-line="68" selection-end-line="69" />
+              <folding>
+                <element signature="n#style#0;n#input#0;n#div#1;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#0;n#div#1;n#form#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#0;n#body#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/Client/Tag.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="211">
+              <caret line="56" column="87" selection-start-line="56" selection-start-column="87" selection-end-line="56" selection-end-column="87" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/Client/Index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="256">
+              <caret line="68" column="24" selection-start-line="68" selection-start-column="24" selection-end-line="68" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/Client/Facture.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="310">
+              <caret line="46" column="71" lean-forward="true" selection-start-line="46" selection-start-column="71" selection-end-line="46" selection-end-column="71" />
             </state>
           </provider>
         </entry>
@@ -111,17 +115,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/init.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/user.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="13" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="13" />
+            <state relative-caret-position="-148">
+              <caret line="85" column="61" selection-start-line="85" selection-start-column="61" selection-end-line="85" selection-end-column="61" />
             </state>
           </provider>
         </entry>
@@ -138,16 +133,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>inde</find>
-      <find>mot de</find>
-      <find>req</find>
-      <find>forgo</find>
-      <find>if</find>
-      <find>Action à eff</find>
-      <find>Demandes</find>
-      <find>Role</find>
-      <find>optionnel</find>
-      <find>motifrejet</find>
       <find>time</find>
       <find>&lt;!--</find>
       <find>date</find>
@@ -158,9 +143,26 @@
       <find>end</find>
       <find>.Accepted</find>
       <find>form</find>
-      <find>2018</find>
       <find>client.</find>
+      <find>2018</find>
+      <find>style=&quot;displa</find>
+      <find>administration</find>
+      <find>AcceptOffer</find>
+      <find>acceptOffer</find>
+      <find>uid_</find>
+      <find>acceptoffer</find>
+      <find>Admin.Admi</find>
+      <find>tag)</find>
+      <find>Add</find>
+      <find>eric</find>
+      <find>Choose</find>
+      <find>User</find>
+      <find>details</find>
+      <find>rows.</find>
+      <find>fmt.</find>
+      <find>Uid</find>
       <find>currentofferref</find>
+      <find>Hour</find>
     </findStrings>
   </component>
   <component name="GOROOT" path="/usr/local/go" />
@@ -179,16 +181,21 @@
         <option value="$PROJECT_DIR$/app/views/App/Login.html" />
         <option value="$PROJECT_DIR$/app/views/App/Inscription.html" />
         <option value="$PROJECT_DIR$/app/views/Admin/Admin.html" />
-        <option value="$PROJECT_DIR$/app/controllers/app.go" />
-        <option value="$PROJECT_DIR$/app/views/Admin/Administration.html" />
-        <option value="$PROJECT_DIR$/app/init.go" />
         <option value="$PROJECT_DIR$/conf/routes" />
         <option value="$PROJECT_DIR$/app/views/Client/Index.html" />
         <option value="$PROJECT_DIR$/app/views/Client/Modify.html" />
         <option value="$PROJECT_DIR$/app/views/header3.html" />
         <option value="$PROJECT_DIR$/app/views/Admin/Ban.html" />
         <option value="$PROJECT_DIR$/app/views/Admin/Demandes.html" />
+        <option value="$PROJECT_DIR$/app/views/Admin/Details.html" />
+        <option value="$PROJECT_DIR$/app/views/header2.html" />
+        <option value="$PROJECT_DIR$/app/controllers/app.go" />
+        <option value="$PROJECT_DIR$/app/views/Client/Demande.html" />
         <option value="$PROJECT_DIR$/app/controllers/admin.go" />
+        <option value="$PROJECT_DIR$/app/init.go" />
+        <option value="$PROJECT_DIR$/app/views/Admin/Administration.html" />
+        <option value="$PROJECT_DIR$/app/views/Client/Tag.html" />
+        <option value="$PROJECT_DIR$/app/views/Client/Facture.html" />
       </list>
     </option>
   </component>
@@ -228,12 +235,6 @@
               <item name="nlpf" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="nlpf" type="b2602c69:ProjectViewProjectNode" />
-              <item name="nlpf" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="tmp" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="nlpf" type="b2602c69:ProjectViewProjectNode" />
@@ -498,22 +499,12 @@
     <entry file="file://$PROJECT_DIR$/conf/app.conf">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/header.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="25" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/App/Inscription.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="42" column="25" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="25" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/tag.go">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/App/Index.html">
       <provider selected="true" editor-type-id="text-editor">
@@ -528,16 +519,6 @@
     <entry file="file://$PROJECT_DIR$/messages/sample.en">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/Client/Facture.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-341">
-          <caret line="1" column="28" lean-forward="true" selection-start-line="1" selection-start-column="28" selection-end-line="1" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/Client/Demande.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/routes/routes.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1470">
@@ -548,76 +529,23 @@
     <entry file="file://$PROJECT_DIR$/app/models/nettoyage.go">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/Client/Index.html">
+    <entry file="file://$PROJECT_DIR$/app/views/Admin/Demandes.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="65" column="20" lean-forward="true" selection-start-line="65" selection-start-column="20" selection-end-line="65" selection-end-column="20" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="242">
+          <caret line="24" column="21" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/Client/Modify.html">
+    <entry file="file://$PROJECT_DIR$/app/models/tag.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="581">
-          <caret line="50" lean-forward="true" selection-start-line="50" selection-end-line="55" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/header3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="15" column="91" selection-start-line="15" selection-start-column="91" selection-end-line="15" selection-end-column="91" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/user.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/client.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1590">
-          <caret line="118" column="18" selection-start-line="118" selection-start-column="18" selection-end-line="118" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/init.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/app.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1377">
-          <caret line="154" selection-start-line="154" selection-end-line="154" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/conf/routes">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-100">
-          <caret line="40" column="21" selection-start-line="40" selection-start-column="9" selection-end-line="40" selection-end-column="21" />
+        <state relative-caret-position="90">
+          <caret line="9" column="10" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="10" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/Admin/Ban.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
+        <state relative-caret-position="915">
           <caret line="61" column="29" selection-start-line="61" selection-start-column="29" selection-end-line="61" selection-end-column="29" />
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#!!top" expanded="true" />
@@ -633,40 +561,133 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/Admin/Demandes.html">
+    <entry file="file://$PROJECT_DIR$/app/views/Client/Modify.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="21" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+        <state relative-caret-position="750">
+          <caret line="50" lean-forward="true" selection-start-line="50" selection-end-line="55" selection-end-column="34" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/Admin/Details.html">
+    <entry file="file://$PROJECT_DIR$/app/views/Client/ProcessDemande.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/header2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-421" />
+        <state relative-caret-position="225">
+          <caret line="15" column="74" selection-start-line="15" selection-start-column="74" selection-end-line="15" selection-end-column="74" />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/Admin/Administration.html">
+    <entry file="file://$PROJECT_DIR$/app/views/header.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="436">
-          <caret line="152" selection-start-line="152" selection-end-line="152" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="150">
+          <caret line="10" column="25" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/header3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="91" selection-start-line="15" selection-start-column="91" selection-end-line="15" selection-end-column="91" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conf/routes">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="353">
+          <caret line="55" column="19" selection-start-line="55" selection-start-column="17" selection-end-line="55" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/client.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="798">
+          <caret line="227" selection-start-line="227" selection-end-line="227" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/Client/Demande.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="19" column="68" selection-start-line="19" selection-start-column="68" selection-end-line="19" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/user.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="7" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/app.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="161" column="23" selection-start-line="161" selection-start-column="23" selection-end-line="161" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/admin.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="190" column="20" selection-start-line="190" selection-start-column="20" selection-end-line="190" selection-end-column="20" />
+        <state relative-caret-position="-2983">
+          <caret line="70" column="66" selection-start-line="70" selection-start-column="66" selection-end-line="70" selection-end-column="66" />
           <folding>
-            <element signature="e#21#144#0" expanded="true" />
+            <element signature="e#21#154#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/init.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-148">
+          <caret line="85" column="61" selection-start-line="85" selection-start-column="61" selection-end-line="85" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/Admin/Administration.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="474">
+          <caret line="153" column="83" selection-start-line="153" selection-start-column="83" selection-end-line="153" selection-end-column="83" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/Admin/Details.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="914">
+          <caret line="68" column="83" selection-start-line="68" selection-end-line="69" />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#div#1;n#form#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#div#1;n#form#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#section#0;n#body#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/Client/Tag.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="56" column="87" selection-start-line="56" selection-start-column="87" selection-end-line="56" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/Client/Index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="68" column="24" selection-start-line="68" selection-start-column="24" selection-end-line="68" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/Client/Facture.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="46" column="71" lean-forward="true" selection-start-line="46" selection-start-column="71" selection-end-line="46" selection-end-column="71" />
         </state>
       </provider>
     </entry>

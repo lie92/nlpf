@@ -16,6 +16,8 @@ type App struct {
 	*revel.Controller
 }
 
+
+//fonction qui vérifie si l'utilisateur est un admin
 func isAdmin() bool {
 
 	var isdAmin bool
@@ -31,6 +33,8 @@ func isAdmin() bool {
 	return false
 }
 
+
+// fonction qui vérifie si le user esf connecté
 func isAuth() bool {
 
 	var idStore int
@@ -48,12 +52,14 @@ func isAuth() bool {
 	}
 }
 
+// fonction pour se deconnecter on vide le cash avant
 func (c App) LogOut() revel.Result {
 	go cache.Delete("id")
 	go cache.Delete("admin")
 	return c.Redirect("/")
 }
 
+//fonction pour afficher la page login
 func (c App) Login(message string) revel.Result {
 
 	if isAuth() {
@@ -62,7 +68,7 @@ func (c App) Login(message string) revel.Result {
 			const longForm = "Jan 2, 2006 at 3:04pm (MST)"
 			t, _ := time.Parse(longForm, "Dec 29, 2012 at 7:54pm (PST)")
 			t2, _ := time.Parse(longForm, "Dec 29, 2099 at 7:54pm (PST)")
-			return c.Redirect(routes.Admin.Administration(t, t2, "", 0, 0, "", "", float32(0.0)))
+			return c.Redirect(routes.Admin.Administration(t, t2, "", 0, 0, "", "", float32(0.0), 0, 0))
 		} else {
 			return c.Redirect(routes.Client.Index())
 		}
@@ -72,23 +78,30 @@ func (c App) Login(message string) revel.Result {
 	}
 }
 
+// fonction qui affiche le profil utilisateur
 func (c App) User(uid string) revel.Result {
 	return c.Render(uid)
 }
 
+// fonction pour d'authentifier et sauvegarder dans le cash pour la gestion des sessions
 func (c App) Auth(email string, password string) revel.Result {
 
-	row := app.Db.QueryRow("Select email, password, admin, id FROM users WHERE email=$1 AND password=$2", email, password)
+	row := app.Db.QueryRow("Select email, password, admin, id, blacklist FROM users WHERE email=$1 AND password=$2", email, password)
 
 	var message string
 	var admin bool
 	var id int
+	var blacklisted bool
 
-	switch err := row.Scan(&email, &password, &admin, &id); err {
+	switch err := row.Scan(&email, &password, &admin, &id, &blacklisted); err {
 	case sql.ErrNoRows:
 		message = "(Email ou mot de passe introuvable)"
 	case nil:
 		fmt.Println(email, password)
+
+		if blacklisted {
+			return c.Redirect(routes.App.HTTP403())
+		}
 
 		go cache.Set("id", id, 30*time.Minute)
 
@@ -98,7 +111,7 @@ func (c App) Auth(email string, password string) revel.Result {
 			const longForm = "Jan 2, 2006 at 3:04pm (MST)"
 			t, _ := time.Parse(longForm, "Dec 29, 2012 at 7:54pm (PST)")
 			t2, _ := time.Parse(longForm, "Dec 29, 2099 at 7:54pm (PST)")
-			return c.Redirect(routes.Admin.Administration(t, t2, "", 0, 0,"", "", float32(0.0)))
+			return c.Redirect(routes.Admin.Administration(t, t2, "", 0, 0,"", "", float32(0.0), 0, 0))
 		} else {
 			go cache.Set("admin", false, 30*time.Minute)
 			fmt.Printf("not admin ")
@@ -113,10 +126,12 @@ func (c App) Auth(email string, password string) revel.Result {
 	return c.Redirect(routes.App.Login(message))
 }
 
+// renvoie vers la page inscription
 func (c App) Inscription() revel.Result {
 	return c.Render()
 }
 
+// fonction qui affiche la page inscription elle utilisite la fonction CreatAccount
 func (c App) SignIn(nom string, prenom string, email string, password string, phone string) revel.Result {
 
 	eric := models.User{Firstname: prenom, Lastname: nom, Email: email, Password: password, Phone: phone}
@@ -126,6 +141,7 @@ func (c App) SignIn(nom string, prenom string, email string, password string, ph
 	return c.Redirect(routes.App.Login(message))
 }
 
+//fonction pour la création de compte
 func CreateAccount(user models.User) {
 	sqlStatement := `INSERT INTO users (firstname, lastname, email, password, admin, phone, blacklist)
 VALUES ($1, $2, $3, $4, false, $5, false) RETURNING id`
@@ -137,6 +153,7 @@ VALUES ($1, $2, $3, $4, false, $5, false) RETURNING id`
 	fmt.Println("New record ID is:", id)
 }
 
+// fonction pour afficher le profil
 func (c App) Profil() revel.Result {
 
 	if isAuth() {
@@ -167,6 +184,7 @@ func (c App) Profil() revel.Result {
 	return c.Redirect("/")
 }
 
+// fonction pour update le profil
 func (c App) UpdateProfil() revel.Result {
 
 	var idStore int
@@ -186,6 +204,7 @@ func (c App) UpdateProfil() revel.Result {
 	return c.Redirect("/")
 }
 
+// redirige vers cette fonction quand il y'a un erreur de droit
 func (c App) HTTP403() revel.Result {
 	return c.Render()
 }

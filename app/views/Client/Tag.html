@@ -54,7 +54,7 @@
                                 Date : {{.tag.Time.Day}} {{.tag.Time.Month}} {{.tag.Time.Year}}
                                 {{if gt .tag.Time.Hour 9 }}
                                     {{.tag.Time.Hour}}:{{else}}
-                                    0{{.tag.Time.Hour}}:{{end}}{{if gt .tag.Time.Hour 9 }}{{.tag.Time.Minute}}{{else}}0{{.tag.Time.Minute}}{{end}}
+                                    0{{.tag.Time.Hour}}:{{end}}{{if gt .tag.Time.Minute 9 }}{{.tag.Time.Minute}}{{else}}0{{.tag.Time.Minute}}{{end}}
 
                                 {{else}}
                                     <div class="form-group">Refusé</div>

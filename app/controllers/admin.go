@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/kataras/go-mailer"
 	"github.com/revel/revel"
 	"nlpf/app"
@@ -14,10 +13,13 @@ type Admin struct {
 	*revel.Controller
 }
 
+/*
+Main function for administration : manages tag displays and acceptation/refusal
+ */
 
-func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Time, motifrejet string, currentofferrefused int, currentofferaccepted int, date string, hour string, price_rdv float32) revel.Result {
+func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Time, motifrejet string, currentofferrefused int, currentofferaccepted int, date string, hour string, price_rdv float32, uid_refusing int, uid_accepting int) revel.Result {
 
-	if (!isAuth() || !isAdmin()) {
+	if !isAuth() || !isAdmin() {
 		return c.Redirect(routes.App.HTTP403())
 	}
 
@@ -36,9 +38,9 @@ func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Ti
 		const longForm = "Jan 2, 2006 at 3:04pm (MST)"
 		t, _ := time.Parse(longForm, "Dec 29, 2012 at 7:54pm (PST)")
 		t2, _ := time.Parse(longForm, "Dec 29, 2099 at 7:54pm (PST)")
-		if (begin_date_input != t && end_date_input != t2) {
+		if begin_date_input != t && end_date_input != t2 {
 			///if (tag.Time > begin_date_input && tag.Time < end_date_input) {
-			if (end_date_input.Sub(begin_date_input) > 0) {
+			if (end_date_input.Sub(time.Now()) > 0 && time.Now().Sub(begin_date_input) > 0) {
 				tags = append(tags, tag)
 			}
 		}
@@ -59,20 +61,20 @@ func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Ti
 
 	checkErr(err)
 
-	fmt.Println(tags);
+	/*fmt.Println(tags);
 	fmt.Println("entering admin")
 	fmt.Println(begin_date_input);
-	fmt.Println(end_date_input);
+	fmt.Println(end_date_input);*/
 	if (motifrejet != "") {
-		fmt.Println("curr offer is")
-		fmt.Println(currentofferrefused);
-		refuseOffer(currentofferrefused, motifrejet)
+		/*fmt.Println("curr offer is")
+		fmt.Println(currentofferrefused);*/
+		refuseOffer(currentofferrefused, motifrejet, uid_refusing)
 		var rep = "Une demande a bien été rejetée";
 		return c.Render(tags, rep);
 	}
-	if (&currentofferaccepted != nil && currentofferaccepted != 0) {
+	if &currentofferaccepted != nil && currentofferaccepted != 0 {
 		//autre alternative : on ne veut plus se servir du currentoffer mais juste du champ date et du champ prix après
-		acceptOffer(currentofferaccepted, date, hour, price_rdv)
+		acceptOffer(currentofferaccepted, date, hour, price_rdv, uid_accepting)
 		var rep = "Une demande a bien été acceptée"
 		return c.Render(tags, rep);
 	}
@@ -81,7 +83,7 @@ func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Ti
 
 
 func (c Admin) BanAction(id_account int) revel.Result {
-	fmt.Println("banning")
+	/*fmt.Println("banning")*/
 	sqlStatement := `UPDATE public.users
 	SET blacklist=true
 	WHERE id = $1`
@@ -96,7 +98,7 @@ func (c Admin) BanAction(id_account int) revel.Result {
 
 
 func (c Admin) UnbanAction(id_account int) revel.Result {
-	fmt.Println("unbanning")
+	/*fmt.Println("unbanning")*/
 	sqlStatement := `UPDATE public.users
 	SET blacklist=false
 	WHERE id = $1`
@@ -113,7 +115,7 @@ func (c Admin) UnbanAction(id_account int) revel.Result {
 
 func (c Admin) Ban() revel.Result { //aux
 	//acceptOffer(tag, "", "")
-	if (!isAuth() || !isAdmin()) {
+	if !isAuth() || !isAdmin() {
 		return c.Redirect(routes.App.HTTP403())
 	}
 
@@ -144,48 +146,13 @@ func (c Admin) RefuseOffer(tag int) revel.Result { //aux
 	return c.Render()
 }
 
-
-/*func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Time) revel.Result {
-
-/*
-
-	if isAuth() && isAdmin() {
-		sqlStatement := `SELECT * FROM tags` //WHERE time>$1
-
-		rows, err := app.Db.Query(sqlStatement) //, time.Now)
-
-		var tags []models.Tag
-
-		for rows.Next() {
-			var tag models.Tag
-
-			err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
-				&tag.Motif)
-			checkErr(err)
-			tags = append(tags, tag)
-		}
-
-		checkErr(err)
-
-		fmt.Println(err);
-		fmt.Println(rows);
-		fmt.Println(tags);
-		fmt.Println("rows")
-		fmt.Println("entering admin")
-		fmt.Println(begin_date_input);
-		fmt.Println(end_date_input);
-		return c.Render()
-
-	} else {
-		return c.Redirect(routes.App.HTTP403())
-	}
-}*/
-
-func acceptOffer(id int, date string, hour string, price_rdv float32) {
+func acceptOffer(id int, date string, hour string, price_rdv float32, uid_accepting int) {
 	booking := date + " " + hour;//+ strings.Split(hour, " ")[0] + ":00"
-	fmt.Println(booking)
+	/*fmt.Println(booking)
 	fmt.Println("is printed")
 	fmt.Println(price_rdv);
+	fmt.Println("is printed")
+	fmt.Println(uid_accepting);*/
 	sqlStatement := `
 	UPDATE tags 
 	SET accepted = true, pending = false, time=$2, price=$3
@@ -196,6 +163,22 @@ func acceptOffer(id int, date string, hour string, price_rdv float32) {
 	if err != nil {
 		panic(err)
 	}
+
+	sqlStatementEmail := `SELECT * FROM users WHERE id=$1`
+
+	rows, err := app.Db.Query(sqlStatementEmail, uid_accepting)
+
+	checkErr(err)
+
+	var user models.User
+	for rows.Next() {
+
+		err = rows.Scan(&user.UID, &user.Firstname, &user.Lastname, &user.Email, &user.Password, &user.Admin, &user.Phone, &user.Blacklist)
+		checkErr(err)
+
+	}
+	/*fmt.Print("important !!!!!!!!!!")
+	fmt.Println(user.Email)*/
 
 	config := mailer.Config{
 		Host:     "smtp.gmail.com",
@@ -209,20 +192,20 @@ func acceptOffer(id int, date string, hour string, price_rdv float32) {
 	sender := mailer.New(config)
 	subject := "Hello subject"
 	content := `<h1>Hello</h1> <br/><br/> <span style="color:black"> Votre demande à été accepté </span>`
-	to := []string{"mohamed.bennis@epita.fr"}
+	to := []string{user.Email}//"mohamed.bennis@epita.fr"}
 	err = sender.Send(subject, content, to...)
 
 	if err != nil {
 		println("error while sending the e-mail: " + err.Error())
 	}
 
-	fmt.Println("acceptation demande tag")
+	/*fmt.Println("acceptation demande tag")*/
 }
 
-func refuseOffer(id int, reason string) {
-	fmt.Println(id)
+func refuseOffer(id int, reason string, uid_refusing int) {
+	/*fmt.Println(id)
 	fmt.Println(" and reason is ")
-	fmt.Println(reason)
+	fmt.Println(reason)*/
 	sqlStatement := `
 	UPDATE tags 
 	SET pending = false, accepted = false, reason = $2
@@ -233,6 +216,23 @@ func refuseOffer(id int, reason string) {
 	if err != nil {
 		panic(err)
 	}
+
+	sqlStatementEmail := `SELECT * FROM users WHERE id=$1`
+
+	rows, err := app.Db.Query(sqlStatementEmail, uid_refusing)
+
+	checkErr(err)
+
+	var user models.User
+	for rows.Next() {
+
+		err = rows.Scan(&user.UID, &user.Firstname, &user.Lastname, &user.Email, &user.Password, &user.Admin, &user.Phone, &user.Blacklist)
+		checkErr(err)
+
+	}
+	/*fmt.Print("important !!!!!!!!!!")
+	fmt.Println(user.Email)*/
+
 
 	config := mailer.Config{
 		Host:     "smtp.gmail.com",
@@ -246,14 +246,12 @@ func refuseOffer(id int, reason string) {
 	sender := mailer.New(config)
 	subject := "Hello subject"
 	content := `<h1>Hello</h1> <br/><br/> <span style="color:black"> Votre demande à été refusé </span>`
-	to := []string{"mohamed.bennis@epita.fr"}
+	to := []string{user.Email}
 	err = sender.Send(subject, content, to...)
 
 	if err != nil {
 		println("error while sending the e-mail: " + err.Error())
 	}
-
-	fmt.Println("refus demande tag")
 }
 
 func blacklist(id int) {
@@ -267,7 +265,6 @@ func blacklist(id int) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("blacklist")
 }
 
 func (c Admin) Demandes () revel.Result {

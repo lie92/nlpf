@@ -64,52 +64,60 @@ func (c Client) Index() revel.Result {
 //Controller de la page facture
 func (c Client) Facture() revel.Result {
 
-	//On fait la requète SQL
-	sqlStatement := `SELECT * FROM tags WHERE userId=$1 and accepted=$2`
-	var stored int
-	_ = cache.Get("id", &stored)
+	if isAuth() && !isAdmin() {
+		//On fait la requète SQL
+		sqlStatement := `SELECT * FROM tags WHERE userId=$1 and accepted=$2`
+		var stored int
+		_ = cache.Get("id", &stored)
 
-	rows, err := app.Db.Query(sqlStatement, stored, true)
-	checkErr(err)
-	var total int64 = 0
-
-	var tags []models.Tag
-	//On remplis le tableau de tag
-	for rows.Next() {
-		var tag models.Tag
-
-		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
-			&tag.Motif, &tag.Orientation)
+		rows, err := app.Db.Query(sqlStatement, stored, true)
 		checkErr(err)
-		total += tag.Price.Int64
-		tags = append(tags, tag)
-	}
+		var total int64 = 0
 
-	return c.Render(tags, total)
-}
+		var tags []models.Tag
+		//On remplis le tableau de tag
+		for rows.Next() {
+			var tag models.Tag
+
+			err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
+				&tag.Motif, &tag.Orientation)
+			checkErr(err)
+			total += tag.Price.Int64
+			tags = append(tags, tag)
+		}
+
+		return c.Render(tags, total)
+		} else {
+			//Sinon le client (ou admin) est redirigé vers une page 403
+			return c.Redirect(routes.App.HTTP403())
+		}
+	}
 
 //Controller pour modifier la demande de tage
 func (c Client) Modify(id int) revel.Result {
-
-	//TODO => check si le mec à le droit (si le tag existe et qu'il lui appartient, qu'il est pas dj accepté/refusé, etc...)
-
-	var stored int
-	_ = cache.Get("id", &stored)
-	sqlStatement := `SELECT * FROM tags WHERE userId=$1 AND id=$2`
-	rows, err := app.Db.Query(sqlStatement, stored, id)
-	checkErr(err)
-	var tag models.Tag
-	for rows.Next() {
-		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
-			&tag.Motif, &tag.Orientation)
+		if isAuth() && !isAdmin() {
+			var stored int
+		_ = cache.Get("id", &stored)
+		sqlStatement := `SELECT * FROM tags WHERE userId=$1 AND id=$2`
+		rows, err := app.Db.Query(sqlStatement, stored, id)
 		checkErr(err)
-	}
+		var tag models.Tag
+		for rows.Next() {
+			err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
+				&tag.Motif, &tag.Orientation)
+			checkErr(err)
+		}
 
-	return c.Render(tag)
+		return c.Render(tag)
+		} else {
+			//Sinon le client (ou admin) est redirigé vers une page 403
+			return c.Redirect(routes.App.HTTP403())
+		}
 }
 
 //Fonction pour modifier la demande de tag
 func (c Client) ModifyDemande(address, motif, phone, orientation string, id int) revel.Result {
+
 	sqlStatement := `UPDATE public.tags
 	SET place=$1, phone=$2, motif=$3, orientation=$4
 	WHERE id = $5`
@@ -167,48 +175,60 @@ func (c Client) ProcessDemande(address, motif, phone, orientation string) revel.
 
 //Fonction pour effacer une demande de Tag
 func (c Client) DeleteDemande(id int) revel.Result {
-	//TODO => check s'il a les droits
-	sqlStatement := `DELETE FROM tags WHERE id = $1`
+	if isAuth() && !isAdmin() {
+		sqlStatement := `DELETE FROM tags WHERE id = $1`
 
-	_, err := app.Db.Exec(sqlStatement, id)
-	if err != nil {
-		panic(err)
+		_, err := app.Db.Exec(sqlStatement, id)
+		if err != nil {
+			panic(err)
+		}
+
+		return c.Redirect(routes.Client.Index())
+	} else {
+		//Sinon le client (ou admin) est redirigé vers une page 403
+		return c.Redirect(routes.App.HTTP403())
 	}
-
-	return c.Redirect(routes.Client.Index())
 }
 
 //Controller de la demande de tag
 func (c Client) Demande() revel.Result {
-	today := time.Now()
+	if isAuth() && !isAdmin() {
+		today := time.Now()
 
-	y := today.Year()
-	var m int = int(today.Month())
-	d := today.Day()
-	return c.Render(y, m, d)
+		y := today.Year()
+		var m int = int(today.Month())
+		d := today.Day()
+		return c.Render(y, m, d)
+	} else {
+		//Sinon le client (ou admin) est redirigé vers une page 403
+		return c.Redirect(routes.App.HTTP403())
+	}
 }
 
 //Controller de la page profil des tags
 func (c Client) Tag(id int) revel.Result {
-	//TODO => check si le mec à le droit (si le tag existe et qu'il lui appartient)
+	if isAuth() && !isAdmin() {
+		var stored int
 
-	var stored int
+		_ = cache.Get("id", &stored)
 
-	_ = cache.Get("id", &stored)
+		sqlStatement := `SELECT * FROM tags WHERE userId=$1 AND id=$2`
 
-	sqlStatement := `SELECT * FROM tags WHERE userId=$1 AND id=$2`
-
-	rows, err := app.Db.Query(sqlStatement, stored, id)
-	checkErr(err)
-
-	var tag models.Tag
-	for rows.Next() {
-
-		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
-			&tag.Motif, &tag.Orientation)
+		rows, err := app.Db.Query(sqlStatement, stored, id)
 		checkErr(err)
 
-	}
+		var tag models.Tag
+		for rows.Next() {
 
-	return c.Render(tag)
+			err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
+				&tag.Motif, &tag.Orientation)
+			checkErr(err)
+
+		}
+
+		return c.Render(tag)
+	} else {
+		//Sinon le client (ou admin) est redirigé vers une page 403
+		return c.Redirect(routes.App.HTTP403())
+	}
 }

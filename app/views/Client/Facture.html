@@ -39,13 +39,13 @@
                             {{.Time.Day}} {{.Time.Month}} {{.Time.Year}}
                             {{if gt .Time.Hour 9 }}
                                 {{.Time.Hour}}:{{else}}
-                                0{{.Time.Hour}}:{{end}}{{if gt .Time.Hour 9 }}{{.Time.Minute}}{{else}}0{{.Time.Minute}}{{end}}
+                                0{{.Time.Hour}}:{{end}}{{if gt .Time.Minute 9 }}{{.Time.Minute}}{{else}}0{{.Time.Minute}}{{end}}
                         </div>
                         <div class="col-lg-4" style="font-weight: 500">
                             {{.Place}}
                         </div>
                         <div class="col-lg-4" style="font-weight: 500">
-                            {{.Price}}€
+                            {{.Price.Int64}}€
                         </div>
 
                     </div>
