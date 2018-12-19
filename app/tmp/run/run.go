@@ -229,11 +229,28 @@ func Register() {
 				},
 			},
 			&revel.MethodType{
+				Name: "Profil",
+				Args: []*revel.MethodArg{ 
+				},
+				RenderArgNames: map[int][]string{ 
+					165: []string{ 
+						"user",
+					},
+				},
+			},
+			&revel.MethodType{
+				Name: "UpdateProfil",
+				Args: []*revel.MethodArg{ 
+				},
+				RenderArgNames: map[int][]string{ 
+				},
+			},
+			&revel.MethodType{
 				Name: "HTTP403",
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					141: []string{ 
+					190: []string{ 
 					},
 				},
 			},
