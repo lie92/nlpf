@@ -16,6 +16,7 @@ install:
   # Setting environments variables
   - go get github.com/revel/revel
   - go get github.com/revel/cmd/revel
+  - go get github.com/kataras/go-mailer
 script:
   # Commented out persona test sample, since persona.org gonna be shutdown.
   # Also http://personatestuser.org becomes non-responsive most of the time.
@@ -28,5 +29,4 @@ script:
   - cd ../../../
   - ls src/
   - ls -l
-  - revel run nlpf
   - revel test nlpf
