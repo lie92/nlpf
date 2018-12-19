@@ -6,7 +6,6 @@ import (
 	"nlpf/app"
 	"nlpf/app/models"
 	"nlpf/app/routes"
-	//	"nlpf/app/routes"
 	"time"
 )
 
@@ -182,12 +181,13 @@ func (c Admin) RefuseOffer(tag int) revel.Result { //aux
 }*/
 
 func acceptOffer(id int, date string, hour string, price_rdv float32) {
-	booking := date + " " + hour
+	booking := date + " " + hour;//+ strings.Split(hour, " ")[0] + ":00"
 	fmt.Println(booking)
+	fmt.Println("is printed")
 	fmt.Println(price_rdv);
 	sqlStatement := `
 	UPDATE tags 
-	SET accepted = true, pending = false, time= $2, price=$3
+	SET accepted = true, pending = false, time=$2, price=$3
 	WHERE id = $1; `
 
 	_, err := app.Db.Exec(sqlStatement, id, booking, price_rdv)
