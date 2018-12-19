@@ -6,7 +6,6 @@ import (
 	"nlpf/app"
 	"nlpf/app/models"
 	"nlpf/app/routes"
-
 	//	"nlpf/app/routes"
 	"time"
 )
@@ -170,4 +169,46 @@ func blacklist(id int) {
 		panic(err)
 	}
 	fmt.Println("blacklist")
+}
+
+func (c Admin) Demandes () revel.Result {
+
+	sqlStatement := `SELECT * FROM tags WHERE pending=$1`
+
+	rows, err := app.Db.Query(sqlStatement, true)
+	checkErr(err)
+	var total int64 = 0
+
+	var tags []models.Tag
+	for rows.Next() {
+		var tag models.Tag
+
+		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
+			&tag.Motif, &tag.Orientation)
+		checkErr(err)
+		total += tag.Price.Int64
+		tags = append(tags, tag)
+	}
+
+	return c.Render(tags, total)
+}
+
+func (c Admin) Details (id int) revel.Result {
+
+	sqlStatement := `SELECT * FROM tags WHERE id=$1`
+
+	rows, err := app.Db.Query(sqlStatement, id)
+	checkErr(err)
+
+	var tag models.Tag
+	for rows.Next() {
+
+		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
+			&tag.Motif, &tag.Orientation)
+		checkErr(err)
+
+	}
+
+	return c.Render(tag)
+
 }

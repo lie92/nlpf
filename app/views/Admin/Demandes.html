@@ -56,19 +56,10 @@
                     </div>
 
                     <div class="col-lg-4" style="text-align: center;font-weight: 500">
-                        <a href="{{url "Client.Tag" .Id}}" class="text-center">
+                        <a href="{{url "Admin.Details" .Id}}" class="text-center">
                             Détails
                         </a>
-                        {{if .Accepted}}
-                            <a>/</a>
-                            <a href="{{url "Client.Modify" .Id}}" class="text-center">
-                                Modifier
-                            </a>
-                            <a>/</a>
-                            <a href="{{url "Client.DeleteDemande" .Id}}" class="text-center">
-                                Supprimer
-                            </a>
-                            {{end}}
+
                         {{end}}
                     </div>
                 </div>

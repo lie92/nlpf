@@ -143,6 +143,22 @@ func (_ tAdmin) RefuseOffer(
 	return revel.MainRouter.Reverse("Admin.RefuseOffer", args).URL
 }
 
+func (_ tAdmin) Demandes(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("Admin.Demandes", args).URL
+}
+
+func (_ tAdmin) Details(
+		id int,
+		) string {
+	args := make(map[string]string)
+	
+	revel.Unbind(args, "id", id)
+	return revel.MainRouter.Reverse("Admin.Details", args).URL
+}
+
 
 type tApp struct {}
 var App tApp

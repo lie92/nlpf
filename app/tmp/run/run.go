@@ -131,15 +131,15 @@ func Register() {
 					&revel.MethodArg{Name: "price_rdv", Type: reflect.TypeOf((*float32)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					72: []string{ 
+					71: []string{ 
 						"tags",
 						"rep",
 					},
-					78: []string{ 
+					77: []string{ 
 						"tags",
 						"rep",
 					},
-					80: []string{ 
+					79: []string{ 
 						"tags",
 					},
 				},
@@ -150,7 +150,7 @@ func Register() {
 					&revel.MethodArg{Name: "tag", Type: reflect.TypeOf((*int)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					85: []string{ 
+					84: []string{ 
 					},
 				},
 			},
@@ -160,7 +160,29 @@ func Register() {
 					&revel.MethodArg{Name: "tag", Type: reflect.TypeOf((*int)(nil)) },
 				},
 				RenderArgNames: map[int][]string{ 
-					90: []string{ 
+					89: []string{ 
+					},
+				},
+			},
+			&revel.MethodType{
+				Name: "Demandes",
+				Args: []*revel.MethodArg{ 
+				},
+				RenderArgNames: map[int][]string{ 
+					193: []string{ 
+						"tags",
+						"total",
+					},
+				},
+			},
+			&revel.MethodType{
+				Name: "Details",
+				Args: []*revel.MethodArg{ 
+					&revel.MethodArg{Name: "id", Type: reflect.TypeOf((*int)(nil)) },
+				},
+				RenderArgNames: map[int][]string{ 
+					212: []string{ 
+						"tag",
 					},
 				},
 			},
