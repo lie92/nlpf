@@ -208,6 +208,20 @@ func (_ tApp) SignIn(
 	return revel.MainRouter.Reverse("App.SignIn", args).URL
 }
 
+func (_ tApp) Profil(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("App.Profil", args).URL
+}
+
+func (_ tApp) UpdateProfil(
+		) string {
+	args := make(map[string]string)
+	
+	return revel.MainRouter.Reverse("App.UpdateProfil", args).URL
+}
+
 func (_ tApp) HTTP403(
 		) string {
 	args := make(map[string]string)

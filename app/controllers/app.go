@@ -137,6 +137,55 @@ VALUES ($1, $2, $3, $4, true, $5) RETURNING id`
 	fmt.Println("New record ID is:", id)
 }
 
+func (c App) Profil() revel.Result {
+
+	if isAuth() {
+		sqlStatement := `SELECT * FROM users WHERE id=$1`
+
+		var idStore int
+
+		_ = cache.Get("id", &idStore)
+
+		rows, err := app.Db.Query(sqlStatement, idStore)
+
+		fmt.Printf("\n the is i want to change is ")
+		fmt.Printf(string(idStore) + "\n")
+
+		checkErr(err)
+
+		var user models.User
+		for rows.Next() {
+
+			err = rows.Scan(&user.UID, &user.Firstname, &user.Lastname, &user.Email, &user.Password, &user.Admin, &user.Phone, &user.Blacklist)
+			checkErr(err)
+
+			fmt.Printf("inside for")
+		}
+		fmt.Printf("outside for")
+		return c.Render(user)
+	}
+	return c.Redirect("/")
+}
+
+func (c App) UpdateProfil() revel.Result {
+
+	var idStore int
+
+	_ = cache.Get("id", &idStore)
+
+	sqlStatement := `UPDATE users
+	SET firstname=$1, lastname=$2, email=$3, phone=$4, password=$5
+	WHERE id = $6`
+
+	_, err := app.Db.Exec(sqlStatement, c.Params.Get("nom"), c.Params.Get("prenom"), c.Params.Get("email"),
+		c.Params.Get("phone"), c.Params.Get("password"), idStore)
+	if err != nil {
+		panic(err)
+	}
+
+	return c.Redirect("/")
+}
+
 func (c App) HTTP403() revel.Result {
 	return c.Render()
 }
