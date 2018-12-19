@@ -156,7 +156,7 @@ func (c App) Profil() revel.Result {
 		var user models.User
 		for rows.Next() {
 
-			err = rows.Scan(&user.UID, &user.Firstname, &user.Lastname, &user.Email, &user.Password, &user.Admin, &user.Phone)
+			err = rows.Scan(&user.UID, &user.Firstname, &user.Lastname, &user.Email, &user.Password, &user.Admin, &user.Phone, &user.Blacklist)
 			checkErr(err)
 
 			fmt.Printf("inside for")
@@ -183,7 +183,7 @@ func (c App) UpdateProfil() revel.Result {
 		panic(err)
 	}
 
-	return c.Redirect(routes.Client.Index())
+	return c.Redirect("/")
 }
 
 func (c App) HTTP403() revel.Result {
