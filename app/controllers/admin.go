@@ -34,7 +34,18 @@ func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Ti
 		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
 			&tag.Motif, &tag.Orientation)
 		checkErr(err)
-		tags = append(tags, tag)
+		const longForm = "Jan 2, 2006 at 3:04pm (MST)"
+		t, _ := time.Parse(longForm, "Dec 29, 2012 at 7:54pm (PST)")
+		t2, _ := time.Parse(longForm, "Dec 29, 2099 at 7:54pm (PST)")
+		if (begin_date_input != t && end_date_input != t2) {
+			///if (tag.Time > begin_date_input && tag.Time < end_date_input) {
+			if (end_date_input.Sub(begin_date_input) > 0) {
+				tags = append(tags, tag)
+			}
+		}
+		if (begin_date_input == t || end_date_input == t2 || begin_date_input == time.Time{} || end_date_input == time.Time{}) {
+			tags = append(tags, tag)
+		}
 		/*if (begin_date_input != nil) {
 			if (end_date_input != nil) {
 				//if (begin_date_input > tag.Time && end_date_input < tag.Time) { // marche pas faut conv en string et recoder la conversion
