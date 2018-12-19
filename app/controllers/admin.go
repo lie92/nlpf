@@ -79,6 +79,38 @@ func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Ti
 	return c.Render(tags)
 }
 
+
+func (c Admin) BanAction(id_account int) revel.Result {
+	fmt.Println("banning")
+	sqlStatement := `UPDATE public.users
+	SET blacklist=true
+	WHERE id = $1`
+
+	_, err := app.Db.Exec(sqlStatement, id_account)
+	if err != nil {
+		panic(err)
+	}
+
+	return c.Redirect(routes.Admin.Ban())
+}
+
+
+func (c Admin) UnbanAction(id_account int) revel.Result {
+	fmt.Println("unbanning")
+	sqlStatement := `UPDATE public.users
+	SET blacklist=false
+	WHERE id = $1`
+
+	_, err := app.Db.Exec(sqlStatement, id_account)
+	if err != nil {
+		panic(err)
+	}
+
+	return c.Redirect(routes.Admin.Ban())
+}
+
+
+
 func (c Admin) Ban() revel.Result { //aux
 	//acceptOffer(tag, "", "")
 	if (!isAuth() || !isAdmin()) {
