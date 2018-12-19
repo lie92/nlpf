@@ -45,10 +45,13 @@ GET     /403                                    App.HTTP403
 
 #TONYADMIN
 
-GET     /admin                                  Admin.Administration
+GET    /admin                                  Admin.Administration
 
-GET     /admin/ban                                  Admin.Ban
+GET    /admin/ban                                  Admin.Ban
 
+GET    /admin/Demandes                                  Admin.Demandes
+
+GET    /admin/Details                                  Admin.Details
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
