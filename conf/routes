@@ -47,6 +47,8 @@ GET     /403                                    App.HTTP403
 
 GET     /admin                                  Admin.Administration
 
+GET     /admin/ban                                  Admin.Ban
+
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

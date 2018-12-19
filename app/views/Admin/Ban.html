@@ -1,0 +1,71 @@
+{{set . "title" "Facture"}}
+{{template "header.html" .}}
+<link rel="stylesheet" type="text/css" href="/public/css/my-login.css">
+{{template "header3.html" .}}
+
+<br>
+<br>
+<br>
+<div class="col-lg-12 h3" style="text-align: center">
+    Gestion de la clientèle bannie
+</div>
+<br>
+<br>
+
+
+{{if .users}}
+<body class="my-login-page">
+
+<div class="card fat" style="margin: 20px">
+    <div class="card-body">
+
+        <div class="row" style="text-align: center">
+
+            <div class="col-lg-4 h4" style="text-align: center;">
+                Client
+            </div>
+            <div class="col-lg-4 h4" style="text-align: center">
+                Phone
+            </div>
+            <div class="col-lg-4 h4" style="text-align: center">
+                Blacklister
+            </div>
+
+        </div>
+
+        {{range .users}}
+
+        <br>
+        <div class="row">
+
+            <div class="col-lg-4" style="text-align: center;font-weight: 500">
+                {{.Email}} (id : {{.Firstname}} {{.Lastname}})
+            </div>
+
+            <div class="col-lg-4" style="text-align: center;font-weight: 500">
+                {{.Phone}}
+            </div>
+
+            <div class="col-lg-4" style="text-align: center;font-weight: 500">
+                <!--<a href="{{url "Client.Tag" .Id}}" class="text-center">
+                (utilisateur pas encore blacklist) Blacklister
+                </a>-->
+                <!--<a href="{{url "Client.Tag" .Id}}" class="text-center">
+                (util déjà blacklist) Déblacklister
+                </a>-->
+            </div>
+        </div>
+        {{end}}
+    </div>
+</div>
+</body>
+
+{{else}}
+
+<br><br>
+<div class="form-group text-center" style="font-weight: 500">
+    Aucune action prévue
+
+    {{end}}
+</div>
+{{template "footer.html" .}}

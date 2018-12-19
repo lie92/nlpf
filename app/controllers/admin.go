@@ -80,8 +80,31 @@ func (c Admin) Administration(begin_date_input time.Time, end_date_input time.Ti
 	return c.Render(tags)
 }
 
+func (c Admin) Ban() revel.Result { //aux
+	//acceptOffer(tag, "", "")
+	if (!isAuth() || !isAdmin()) {
+		return c.Redirect(routes.App.HTTP403())
+	}
+
+	sqlStatement := `SELECT * FROM users` /*WHERE time>$1`*/
+
+	rows, err := app.Db.Query(sqlStatement)//, time.Now)
+
+	var users []models.User
+
+	for rows.Next() {
+		var user models.User
+
+		err = rows.Scan(&user.UID, &user.Firstname, &user.Lastname, &user.Email, &user.Password, &user.Admin, &user.Phone, &user.Blacklist)
+		checkErr(err)
+		users = append(users, user)
+	}
+	return c.Render(users)
+}
+
 func (c Admin) AcceptOffer(tag int) revel.Result { //aux
 	//acceptOffer(tag, "", "")
+
 	return c.Render()
 }
 
@@ -145,6 +168,9 @@ func acceptOffer(id int, date string, hour string, price_rdv float32) {
 }
 
 func refuseOffer(id int, reason string) {
+	fmt.Println(id)
+	fmt.Println(" and reason is ")
+	fmt.Println(reason)
 	sqlStatement := `
 	UPDATE tags 
 	SET pending = false, accepted = false, reason = $2
