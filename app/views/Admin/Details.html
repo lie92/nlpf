@@ -21,19 +21,9 @@
                     </div>
                     <div class="card fat">
                         <div class="card-body">
-                            <p class="card-text text-center">{{.tag.Place}}</p>
-                            <p class="card-text text-center">{{.tag.Phone}}</p>
-                            <p class="card-text text-center">{{.tag.Motif}}</p>
-                            <p class="card-text text-center">{{.tag.Time}}</p>
-                            {{if .tag.Pending}}
-                                <p class="card-text text-center">Demande en attente de traitement</p>
-                            {{else}}
-                                {{if .tag.Accepted.Bool}}
-                                    <p class="card-text text-center">Demande déjà préalablement acceptée</p>
-                                {{else}}
-                                    <p class="card-text text-center">Demande déjà préalablement refusée</p>
-                                {{end}}
-                            {{end}}
+                            <p class="card-text text-center">Adresse : {{.tag.Place}}</p>
+                            <p class="card-text text-center">Téléphone : {{.tag.Phone}}</p>
+                            <p class="card-text text-center">Motif : {{.tag.Motif}}</p>
                             <!--
                     <div class="form-group text-center">
                         <button onclick="location.href='admin?currentoffer={{.Id}}&isaccepted=true'" type="button"  class="btn btn-primary btn-block">
@@ -77,7 +67,7 @@
                                             <label for="motifrejet">Motif de rejet de la mission</label>
                                             <input class="form-control" required type="string" id="motifrejet" placeholder="Motif rejet" name="motifrejet"/>
                                         </div>
-                                        <input class="form-control" type="string" id="currentoffer" name="currentoffer" value="{{.tag.Id}}" style="display: none"/>
+                                        <input class="form-control" type="string" id="currentofferrefused" name="currentofferrefused" value="{{.tag.Id}}" style="display: none"/>
 
                                     </div>
                                 </div>
