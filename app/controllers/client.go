@@ -24,9 +24,10 @@ type Client struct {
 	*revel.Controller
 }
 
+//Controller de la page d'accueil du client
 func (c Client) Index() revel.Result {
 
-
+	//Check si le client est authentifier et qu'il n'est pas un admin
 	if isAuth() && !isAdmin() {
 
 		var stored int
@@ -55,15 +56,17 @@ func (c Client) Index() revel.Result {
 
 		return c.Render(tags, total)
 	} else {
+		//Sinon le client (ou admin) est redirigé vers une page 403
 		return c.Redirect(routes.App.HTTP403())
 	}
 }
 
+//Controller de la page facture
 func (c Client) Facture() revel.Result {
+
+	//On fait la requète SQL
 	sqlStatement := `SELECT * FROM tags WHERE userId=$1 and accepted=$2`
-
 	var stored int
-
 	_ = cache.Get("id", &stored)
 
 	rows, err := app.Db.Query(sqlStatement, stored, true)
@@ -71,6 +74,7 @@ func (c Client) Facture() revel.Result {
 	var total int64 = 0
 
 	var tags []models.Tag
+	//On remplis le tableau de tag
 	for rows.Next() {
 		var tag models.Tag
 
@@ -84,31 +88,27 @@ func (c Client) Facture() revel.Result {
 	return c.Render(tags, total)
 }
 
+//Controller pour modifier la demande de tage
 func (c Client) Modify(id int) revel.Result {
 
 	//TODO => check si le mec à le droit (si le tag existe et qu'il lui appartient, qu'il est pas dj accepté/refusé, etc...)
 
 	var stored int
-
 	_ = cache.Get("id", &stored)
-
 	sqlStatement := `SELECT * FROM tags WHERE userId=$1 AND id=$2`
-
 	rows, err := app.Db.Query(sqlStatement, stored, id)
 	checkErr(err)
-
 	var tag models.Tag
 	for rows.Next() {
-
 		err = rows.Scan(&tag.Id, &tag.UserId, &tag.Time, &tag.Place, &tag.Pending, &tag.Accepted, &tag.Reason, &tag.Price, &tag.Phone,
 			&tag.Motif, &tag.Orientation)
 		checkErr(err)
-
 	}
 
 	return c.Render(tag)
 }
 
+//Fonction pour modifier la demande de tag
 func (c Client) ModifyDemande(address, motif, phone, orientation string, id int) revel.Result {
 	sqlStatement := `UPDATE public.tags
 	SET place=$1, phone=$2, motif=$3, orientation=$4
@@ -123,33 +123,26 @@ func (c Client) ModifyDemande(address, motif, phone, orientation string, id int)
 
 }
 
+//Fonction pour créer la demande de tag
 func (c Client) ProcessDemande(address, motif, phone, orientation string) revel.Result {
 
-	//TODO ==> Ici pour l'upload de file.
-	//TODO ==> On doit upload le file, save le file (surement en local) puis save le tag dans la bdd.
-	//TODO ==> Faudra donc modifier la bdd avec un champ photo
-	//TODO ==> Faudra aussi mettre la photo dans le "tagprofile" et mettre l'upload dans modifier (ModifyDemande)
-	//TODO ==> pour l'instant occupe toi que de ça, le front passe après (même si il est pas très beau)
-	//TODO ==> Gl :)
-	//TODO ==> Ps: exemple sur: https://github.com/revel/examples/tree/master/upload
-	//TODO ==> mais il marche pas donc si t'arrive à le faire marcher on a gagné.
-
+	//On prépare la requète SQL.
 	var stored int
-
 	_ = cache.Get("id", &stored)
-
 	sqlStatement := `INSERT INTO tags (userId, place, pending, accepted, motif, phone, time, orientation)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 		RETURNING id`
 
 	var id int
+	//On l'exécute
 	err := app.Db.QueryRow(sqlStatement, stored, address, true, sql.NullBool{false, false}, motif, phone, "01/01/01", orientation).Scan(&id)
 	if err != nil {
 		panic(err)
 	}
 
+	//On récuppère l'image
 	file := c.Params.Files["pic"][0]
-
+	//On enregistre l'image dans public/img/IdDuTag.png
 	f, err := os.OpenFile("./public/img/"+strconv.Itoa(id)+".png", os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Println(err)
@@ -172,8 +165,9 @@ func (c Client) ProcessDemande(address, motif, phone, orientation string) revel.
 	return c.Redirect(routes.Client.Index())
 }
 
+//Fonction pour effacer une demande de Tag
 func (c Client) DeleteDemande(id int) revel.Result {
-	//TODO => check si il a les droits
+	//TODO => check s'il a les droits
 	sqlStatement := `DELETE FROM tags WHERE id = $1`
 
 	_, err := app.Db.Exec(sqlStatement, id)
@@ -184,6 +178,7 @@ func (c Client) DeleteDemande(id int) revel.Result {
 	return c.Redirect(routes.Client.Index())
 }
 
+//Controller de la demande de tag
 func (c Client) Demande() revel.Result {
 	today := time.Now()
 
@@ -193,6 +188,7 @@ func (c Client) Demande() revel.Result {
 	return c.Render(y, m, d)
 }
 
+//Controller de la page profil des tags
 func (c Client) Tag(id int) revel.Result {
 	//TODO => check si le mec à le droit (si le tag existe et qu'il lui appartient)
 
